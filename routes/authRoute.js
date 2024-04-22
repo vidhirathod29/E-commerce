@@ -28,7 +28,7 @@ router.post('/login', validator.body(loginValidation), errorHandler(login));
 
 router.put(
   '/editProfile',
-  authorization([ROLES.ADMIN, ROLES.CUSTOMER]),
+  authorization([ROLES.ADMIN, ROLES.VENDOR, ROLES.CUSTOMER]),
   upload.single('profile_image'),
   validator.body(updateValidation),
   errorHandler(updateProfile),
@@ -36,7 +36,7 @@ router.put(
 
 router.get(
   '/viewProfile',
-  authorization([ROLES.ADMIN, ROLES.CUSTOMER]),
+  authorization([ROLES.ADMIN, ROLES.VENDOR, ROLES.CUSTOMER]),
   errorHandler(viewProfile),
 );
 
