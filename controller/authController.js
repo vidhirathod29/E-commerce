@@ -114,17 +114,14 @@ const updateProfile = async (req, res, next) => {
     );
   }
   const { name, email, phone_number, gender } = req.body;
-
-  const updateData = {};
-
-  if (name) updateData.name = name;
-  if (email) updateData.email = email;
-  if (phone_number) updateData.phone_number = phone_number;
-  if (gender) updateData.gender = gender;
-  if (req.file) {
-    const image = req.file.filename;
-    if (image) updateData.image = image;
-  }
+  const image = req.file.filename;
+  const updateData = {
+    name,
+    email,
+    phone_number,
+    gender,
+    profile_image: image,
+  };
 
   if (Object.keys(updateData).length === 0) {
     logger.error(Messages.NO_VALID_FIELDS);
@@ -159,7 +156,7 @@ const viewProfile = async (req, res, next) => {
   const findUser = await auth.findOne({
     where: { email },
     attributes: {
-      exclude: ['password', 'created_at', 'updated_at', 'is_deleted'],
+      exclude: ['password', 'role', 'created_at', 'updated_at', 'is_deleted'],
     },
   });
   if (!findUser) {

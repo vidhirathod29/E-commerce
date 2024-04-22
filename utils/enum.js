@@ -5,6 +5,7 @@ module.exports = {
   },
   ROLES: {
     ADMIN: 'Admin',
+    VENDOR:'Vendor',
     CUSTOMER: 'Customer',
   },
   GENDER: {

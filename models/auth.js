@@ -26,7 +26,7 @@ module.exports = (sequelize, Sequelize) => {
       },
       role: {
         type: Sequelize.STRING,
-        enum: [ROLES.ADMIN, ROLES.CUSTOMER],
+        enum: [ROLES.ADMIN, ROLES.VENDOR, ROLES.CUSTOMER],
       },
       created_at: {
         type: Sequelize.DATE,

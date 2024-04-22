@@ -58,12 +58,12 @@ module.exports = {
         'any.required': `Gender is a required field`,
       }),
     role: Joi.string()
-      .valid(ROLES.ADMIN, ROLES.CUSTOMER)
+      .valid(ROLES.ADMIN, ROLES.CUSTOMER, ROLES.VENDOR)
       .empty()
       .required()
       .messages({
         'string.base': `Role should be a type of string`,
-        'any.only': `Role must be a ${ROLES.ADMIN} or ${ROLES.CUSTOMER} `,
+        'any.only': `Role must be a ${ROLES.ADMIN} or ${ROLES.CUSTOMER} or ${ROLES.VENDOR} `,
         'string.empty': `Role should not be empty`,
         'any.required': `Role is a required field`,
       }),
