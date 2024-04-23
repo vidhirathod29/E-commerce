@@ -15,3 +15,14 @@ sequelize
   .catch((err) => {
     logger.error(Messages.NO_DATABASE_CONNECTION);
   });
+
+const db = {};
+db.Sequelize = Sequelize;
+db.sequelize = sequelize;
+db.categoryModel = require('../models/category')(sequelize, Sequelize);
+
+db.sequelize.sync().then(() => {
+  logger.info('Re-sync');
+});
+
+module.exports = db;
