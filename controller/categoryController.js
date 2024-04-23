@@ -1,11 +1,12 @@
 const db = require('../models/db');
+const user = db.authModel; // Use the correct model name 'users'
 const category = db.categoryModel;
-const sequelize = db.sequelize;
 const { StatusCodes } = require('http-status-codes');
 const { RESPONSE_STATUS } = require('../utils/enum');
 const { GeneralResponse } = require('../utils/response');
 const { Messages } = require('../utils/messages');
 const { GeneralError } = require('../utils/error');
+const logger = require('../logger/logger');
 
 const addUpdateCategory = async (req, res, next) => {
   const id = req.params.id;
@@ -100,20 +101,20 @@ const deleteCategory = async (req, res, next) => {
 
 const listOfCategory = async (req, res, next) => {
   const { condition, pageSize } = req.body;
-  let whereClause = { is_deleted: 0 };
+  let whereCondition = { is_deleted: 0 };
 
   if (condition) {
     if (condition.id) {
-      whereClause.id = condition.id;
+      whereCondition.id = condition.id;
     }
     if (condition.user_id) {
-      whereClause.user_id = condition.user_id;
+      whereCondition.user_id = condition.user_id;
     }
     if (condition.category_name) {
-      whereClause.category_name = condition.category_name;
+      whereCondition.category_name = condition.category_name;
     }
     if (condition.category_description) {
-      whereClause.category_description = condition.category_description;
+      whereCondition.category_description = condition.category_description;
     }
   }
 
@@ -122,10 +123,19 @@ const listOfCategory = async (req, res, next) => {
   if (pageSize) {
     query.limit = parseInt(pageSize, 10);
   }
-  const listOfCategories = await sequelize.query(
-    'SELECT category.id,category.user_id ,category.category_name, category.category_description, users.name AS user_name FROM category LEFT JOIN users ON category.user_id = users.id WHERE category.is_deleted = 0',
-    { type: sequelize.QueryTypes.SELECT },
-  );
+  const listOfCategories = await category.findAll({
+    attributes: ['id', 'user_id', 'category_name', 'category_description'],
+    where: whereCondition,
+    include: [
+      {
+        model: user,
+        attributes: ['name'],
+        where: {
+          is_deleted: 0,
+        },
+      },
+    ],
+  });
 
   if (listOfCategories) {
     logger.info(`Category ${Messages.GET_SUCCESS}`);

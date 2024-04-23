@@ -1,5 +1,7 @@
+const { Sequelize } = require('sequelize');
+
 module.exports = (sequelize, Sequelize) => {
-  return sequelize.define(
+  const category = sequelize.define(
     'category',
     {
       user_id: {
@@ -28,4 +30,10 @@ module.exports = (sequelize, Sequelize) => {
     },
     { freezeTableName: true, timestamps: false },
   );
+  category.belongsTo(sequelize.models.users, {
+    foreignKey: 'user_id',
+    targetKey: 'id',
+  });
+
+  return category;
 };
