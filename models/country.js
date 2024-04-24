@@ -9,9 +9,9 @@ module.exports = (sequelize, Sequelize) => {
     { freezeTableName: true, timestamps: false },
   );
 
-  const State = require('./state')(sequelize, Sequelize); 
+  const state = require('./state')(sequelize, Sequelize); 
 
-  country.hasMany(State, {
+  country.hasMany(state, {
     foreignKey: 'country_id',
     sourceKey: 'id', 
   });
