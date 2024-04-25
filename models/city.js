@@ -4,7 +4,10 @@ module.exports = (sequelize, Sequelize) => {
     {
       state_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        references: {
+          model: 'state',
+          key: 'id',
+        },
       },
       city_name: {
         type: Sequelize.STRING,

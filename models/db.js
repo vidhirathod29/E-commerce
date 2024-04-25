@@ -1,11 +1,17 @@
 const { Sequelize } = require('sequelize');
 const { Messages } = require('../utils/messages');
 const logger = require('../logger/logger');
+require('dotenv').config();
 
-const sequelize = new Sequelize('e-commerce', 'root', '', {
-  host: 'localhost',
-  dialect: 'mysql',
-});
+const sequelize = new Sequelize(
+  process.env.DATABASE,
+  process.env.USER_NAME,
+  '',
+  {
+    host: process.env.HOST,
+    dialect: process.env.DIALECT,
+  },
+);
 
 sequelize
   .authenticate()
