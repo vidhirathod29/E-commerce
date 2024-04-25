@@ -10,7 +10,7 @@ const logger = require('../logger/logger');
 const { listData } = require('../helper/listData');
 
 const listOfCountry = async (req, res, next) => {
-  const countryList = await listData(country);
+  const countryList = await listData(country, [], {}, []);
   if (countryList) {
     logger.info(`Country list ${Messages.GET_SUCCESS}`);
     next(
@@ -35,16 +35,12 @@ const listOfCountry = async (req, res, next) => {
 };
 
 const listOfState = async (req, res, next) => {
-  const stateList = await listData(
-    state,
-    ['id', 'state_name'],
-    [
-      {
-        model: country,
-        attributes: ['id', 'country_name'],
-      },
-    ],
-  );
+  const stateList = await listData(state, ['id', 'state_name'], {}, [
+    {
+      model: country,
+      attributes: ['id', 'country_name'],
+    },
+  ]);
   if (stateList) {
     logger.info(`State list ${Messages.GET_SUCCESS}`);
     next(
@@ -69,16 +65,12 @@ const listOfState = async (req, res, next) => {
 };
 
 const listOfCity = async (req, res, next) => {
-  const cityList = await listData(
-    city,
-    ['id', 'city_name'],
-    [
-      {
-        model: state,
-        attributes: ['id', 'state_name'],
-      },
-    ],
-  );
+  const cityList = await listData(city, ['id', 'city_name'], {}, [
+    {
+      model: state,
+      attributes: ['id', 'state_name'],
+    },
+  ]);
 
   if (cityList) {
     logger.info(`City list ${Messages.GET_SUCCESS}`);

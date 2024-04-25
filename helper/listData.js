@@ -1,6 +1,7 @@
 const listData = async (
   model,
   attributes = [],
+  where,
   include = [],
   page = 1,
   pageSize = 3,
@@ -9,6 +10,7 @@ const listData = async (
   const limit = pageSize;
   const data = await model.findAndCountAll({
     attributes: attributes.length > 0 ? attributes : undefined,
+    where: Object.keys(where).length > 0 ? where : undefined,
     include: include.length > 0 ? include : undefined,
     offset,
     limit,
