@@ -6,6 +6,10 @@ module.exports = (sequelize, Sequelize) => {
     {
       user_id: {
         type: Sequelize.INTEGER(11),
+        references: {
+          model: 'users',
+          key: 'id',
+        },
         allowNull: false,
       },
       category_name: {
