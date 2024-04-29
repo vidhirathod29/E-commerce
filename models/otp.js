@@ -3,11 +3,11 @@ module.exports = (sequelize, Sequelize) => {
     'otp',
     {
       email: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(50),
         unique: true,
       },
       otp: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.INTEGER(6),
         allowNull: false,
       },
       expireTime: {

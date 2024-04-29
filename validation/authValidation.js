@@ -2,6 +2,7 @@ const Joi = require('joi');
 const { ROLES, GENDER } = require('../utils/enum');
 
 module.exports = {
+  
   registrationValidation: Joi.object({
     name: Joi.string().min(3).max(30).empty().required().messages({
       'string.base': `Name should be a type of string`,
@@ -21,18 +22,18 @@ module.exports = {
       }),
     password: Joi.string()
       .min(8)
-      .pattern(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@#$!%*?&]{8,}$/,
-      )
       .max(250)
       .empty()
       .required()
+      .pattern(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@#$!%*?&]{8,}$/,
+      )
       .messages({
         'string.base': `Password should be a type of string`,
         'string.min': `Password should contain at least 8 characters `,
-        'string.pattern.base': `Password must include at least one uppercase letter, one lowercase letter, one digit, and one special character`,
         'string.empty': `Password cannot be an empty field`,
         'any.required': `Password is a required field`,
+        'string.pattern.base': `Password must include at least one uppercase letter, one lowercase letter, one digit, and one special character`,
       }),
     confirm_password: Joi.valid(Joi.ref('password'))
       .empty()
@@ -113,10 +114,13 @@ module.exports = {
   updatePasswordValidation: Joi.object({
     email: Joi.string()
       .max(50)
-      .optional()
+      .empty()
+      .required()
       .pattern(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$/)
       .messages({
         'string.base': `Email should be a type of string`,
+        'string.empty': `Email cannot be an empty field`,
+        'any.required': `Email is a required field`,
         'string.pattern.base"': `Email should be in proper formate`,
       }),
     otp: Joi.string().min(6).max(50).empty().messages({
@@ -126,19 +130,19 @@ module.exports = {
     }),
     newPassword: Joi.string()
       .min(8)
+      .empty()
+      .required()
       .pattern(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@#$!%*?&]{8,}$/,
       )
-      .empty()
-      .required()
       .messages({
         'string.base': `New password should be type of string`,
-        'string.pattern.base': `New password must include at least one uppercase letter, one lowercase letter, one digit, and one special character`,
         'string.empty': `New password cannot be an empty field`,
         'any.required': `New password is a required field`,
+        'string.pattern.base': `New password must include at least one uppercase letter, one lowercase letter, one digit, and one special character`,
       }),
     confirmPassword: Joi.string().valid(Joi.ref('newPassword')).messages({
-      'string.base': `Confirm password should be a type of 'text'.`,
+      'string.base': `Confirm password should be a type of 'string'.`,
       'any.only': `Confirm password doesn't match the password.`,
       'any.required': `Confirm password is a required field.`,
     }),
@@ -147,29 +151,29 @@ module.exports = {
   resetPasswordValidation: Joi.object({
     oldPassword: Joi.string()
       .min(8)
+      .empty()
+      .required()
       .pattern(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@#$!%*?&]{8,}$/,
       )
-      .empty()
-      .required()
       .messages({
         'string.base': `Old password should be type of string`,
-        'string.pattern.base': `Old password must include at least one uppercase letter, one lowercase letter, one digit, and one special character`,
         'string.empty': `Old password cannot be an empty field`,
         'any.required': `Old password is a required field`,
+        'string.pattern.base': `Old password must include at least one uppercase letter, one lowercase letter, one digit, and one special character`,
       }),
     newPassword: Joi.string()
       .min(8)
+      .empty()
+      .required()
       .pattern(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@#$!%*?&]{8,}$/,
       )
-      .empty()
-      .required()
       .messages({
         'string.base': `New password should be type of string`,
-        'string.pattern.base': `New password must include at least one uppercase letter, one lowercase letter, one digit, and one special character`,
         'string.empty': `New password cannot be an empty field`,
         'any.required': `New password is a required field`,
+        'string.pattern.base': `New password must include at least one uppercase letter, one lowercase letter, one digit, and one special character`,
       }),
     confirmPassword: Joi.string().valid(Joi.ref('newPassword')).messages({
       'string.base': `Confirm password should be a type of 'text'.`,
@@ -179,15 +183,16 @@ module.exports = {
   }),
 
   verifyEmailValidation: Joi.object({
-    phone_number: Joi.string().optional().messages({
-      'string.base': `Phone number should be a type of string`,
-    }),
-    gender: Joi.string()
-      .valid(GENDER.FEMALE, GENDER.MALE)
-      .optional()
+    email: Joi.string()
+      .max(50)
+      .empty()
+      .required()
+      .pattern(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$/)
       .messages({
-        'string.base': `Gender should be a type of string`,
-        'any.only': `Gender must be a ${GENDER.FEMALE} or ${GENDER.MALE} `,
+        'string.base': `Email should be a type of string`,
+        'string.empty': `Email cannot be an empty field`,
+        'any.required': `Email is a required field`,
+        'string.pattern.base"': `Email should be in proper formate`,
       }),
   }),
 };

@@ -49,6 +49,7 @@ router.get(
   authorization([ROLES.ADMIN, ROLES.CUSTOMER]),
   errorHandler(viewProfileController),
 );
+
 router.put(
   '/resetPassword',
   authorization([ROLES.ADMIN, ROLES.CUSTOMER]),
@@ -67,4 +68,5 @@ router.put(
   validator.body(updatePasswordValidation),
   errorHandler(updatePasswordController),
 );
+
 module.exports = router;

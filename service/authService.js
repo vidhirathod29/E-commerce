@@ -195,6 +195,7 @@ const resetPassword = async (req, res, next) => {
       ),
     );
   }
+
   const comparePassword = await bcrypt.compare(oldPassword, findUser.password);
 
   if (!comparePassword) {
@@ -228,8 +229,10 @@ const resetPassword = async (req, res, next) => {
 };
 
 const verifyEmail = async (req, res, next) => {
+  
   const email = req.body.email;
   const findUser = await auth.findOne({ where: { email } });
+
   if (!findUser) {
     logger.error(`User ${Messages.NOT_FOUND}`);
     next(
