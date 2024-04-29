@@ -56,10 +56,10 @@ const errorHandler = (check) => {
     try {
       await check(req, res, next);
     } catch (error) {
-      console.log('error',error)
+      logger.error(error)
       next(
         new GeneralError(
-          Messages.SERVER_ERROR,
+          Messages.INTERNAL_SERVER_ERROR,
           StatusCodes.INTERNAL_SERVER_ERROR,
           undefined,
           RESPONSE_STATUS.ERROR,
