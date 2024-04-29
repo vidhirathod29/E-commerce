@@ -42,7 +42,7 @@ const registration = async (req, res, next) => {
     next(
       new GeneralError(
         `User ${Messages.ALREADY_EXIST}`,
-        StatusCodes.FORBIDDEN,
+        StatusCodes.CONFLICT,
         undefined,
         RESPONSE_STATUS.ERROR,
       ),
@@ -81,7 +81,6 @@ const login = async (req, res, next) => {
   } else {
     let token = generateToken({
       email,
-      password,
       role: findUser.role,
       id: findUser.id,
     });
