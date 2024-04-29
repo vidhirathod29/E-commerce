@@ -5,13 +5,15 @@ const {
 } = require('../service/categoryService');
 
 module.exports = {
-  addUpdateCategory: async (req, res, next) => {
-    await addUpdateCategory(req, res, next);
+  addUpdateCategoryController: (req, res, next) => {
+    return addUpdateCategory(req, res, next);
   },
-  deleteCategory: async (req, res, next) => {
-    await deleteCategory(req, res, next);
+
+  deleteCategoryController: (req, res, next) => {
+    return deleteCategory(req, res, next);
   },
-  listOfCategory: async (req, res, next) => {
-    await listOfCategory(req, res, next);
+
+  listOfCategoryController: (req, res, next) => {
+    return listOfCategory(req, res, next);
   },
 };

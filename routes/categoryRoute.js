@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 const { errorHandler } = require('../helper/error');
 const {
-  addUpdateCategory,
-  deleteCategory,
-  listOfCategory,
+  addUpdateCategoryController,
+  deleteCategoryController,
+  listOfCategoryController,
 } = require('../controller/categoryController');
 const { validator } = require('../validation/validator');
 const {
@@ -19,27 +19,27 @@ router.post(
   '/addCategory',
   authorization([ROLES.ADMIN]),
   validator.body(addCategoryValidation),
-  errorHandler(addUpdateCategory),
+  errorHandler(addUpdateCategoryController),
 );
 
 router.put(
   '/updateCategory/:id',
   authorization([ROLES.ADMIN]),
   validator.body(updateCategoryValidation),
-  errorHandler(addUpdateCategory),
+  errorHandler(addUpdateCategoryController),
 );
 
 router.delete(
   '/deleteCategory/:id',
   authorization([ROLES.ADMIN]),
-  errorHandler(deleteCategory),
+  errorHandler(deleteCategoryController),
 );
 
 router.post(
   '/listOfCategory',
   authorization([ROLES.ADMIN, ROLES.CUSTOMER]),
   validator.body(listOfCategoryValidation),
-  errorHandler(listOfCategory),
+  errorHandler(listOfCategoryController),
 );
 
 module.exports = router;
