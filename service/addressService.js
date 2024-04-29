@@ -7,10 +7,11 @@ const { RESPONSE_STATUS } = require('../utils/enum');
 const { Messages } = require('../utils/messages');
 const { GeneralError } = require('../utils/error');
 const logger = require('../logger/logger');
-const { listData } = require('../helper/listData');
+const { listData } = require('../helper/dbService');
 
 const listOfCountry = async (req, res, next) => {
   const countryList = await listData(country, [], {}, []);
+
   if (countryList) {
     logger.info(`Country list ${Messages.GET_SUCCESS}`);
     next(
@@ -41,6 +42,7 @@ const listOfState = async (req, res, next) => {
       attributes: ['id', 'country_name'],
     },
   ]);
+
   if (stateList) {
     logger.info(`State list ${Messages.GET_SUCCESS}`);
     next(
@@ -96,3 +98,4 @@ const listOfCity = async (req, res, next) => {
 };
 
 module.exports = { listOfCountry, listOfState, listOfCity };
+

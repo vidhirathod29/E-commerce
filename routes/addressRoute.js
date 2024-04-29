@@ -2,13 +2,13 @@ const express = require('express');
 const router = express.Router();
 const { errorHandler } = require('../helper/error');
 const {
-  listOfCountry,
-  listOfState,
-  listOfCity,
+  listOfCountryController,
+  listOfStateController,
+  listOfCityController,
 } = require('../controller/addressController');
 
-router.get('/listOfCountry', errorHandler(listOfCountry));
-router.get('/listOfState', errorHandler(listOfState));
-router.get('/listOfCity', errorHandler(listOfCity));
+router.get('/listOfCountry', errorHandler(listOfCountryController));
+router.get('/listOfState', errorHandler(listOfStateController));
+router.get('/listOfCity', errorHandler(listOfCityController));
 
 module.exports = router;

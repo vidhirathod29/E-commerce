@@ -5,13 +5,15 @@ const {
 } = require('../service/addressService');
 
 module.exports = {
-  listOfCountry: async (req, res, next) => {
-    await listOfCountry(req, res, next);
+  listOfCountryController: (req, res, next) => {
+    return listOfCountry(req, res, next);
   },
-  listOfState: async (req, res, next) => {
-    await listOfState(req, res, next);
+
+  listOfStateController: (req, res, next) => {
+    return listOfState(req, res, next);
   },
-  listOfCity: async (req, res, next) => {
-    await listOfCity(req, res, next);
+
+  listOfCityController: (req, res, next) => {
+    return listOfCity(req, res, next);
   },
 };
