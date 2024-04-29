@@ -8,10 +8,8 @@ module.exports = {
       'string.max': 'Category name should have maximum length of 50',
       'any.required': 'Category name is a required field',
     }),
-    category_description: Joi.string().empty().required().messages({
+    category_description: Joi.string().optional().messages({
       'string.base': 'Category description should be type of string',
-      'string.empty': 'Category description should not be empty',
-      'any.required': 'Category description is a required field',
     }),
   }),
 

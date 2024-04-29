@@ -1,5 +1,5 @@
 const db = require('../models/db');
-const user = db.authModel; 
+const user = db.authModel;
 const category = db.categoryModel;
 const { StatusCodes } = require('http-status-codes');
 const { RESPONSE_STATUS } = require('../utils/enum');
@@ -7,17 +7,20 @@ const { GeneralResponse } = require('../utils/response');
 const { Messages } = require('../utils/messages');
 const { GeneralError } = require('../utils/error');
 const logger = require('../logger/logger');
-const { listData } = require('../helper/listData');
+const { listData, filter } = require('../helper/dbService');
 
 const addUpdateCategory = async (req, res, next) => {
   const id = req.params.id;
   const userId = req.user.id;
+
   const { category_name, category_description } = req.body;
+
   const categoryData = {
     user_id: userId,
     category_name,
     category_description,
   };
+  
   const updateData = {
     category_name,
     category_description,
@@ -25,10 +28,12 @@ const addUpdateCategory = async (req, res, next) => {
 
   if (id) {
     const findCategory = await category.findOne({ id });
+
     if (findCategory) {
       const updateCategory = await category.update(updateData, {
         where: { id },
       });
+
       if (updateCategory.length > 0) {
         logger.info(`Category ${Messages.UPDATE_SUCCESS}`);
         next(
@@ -86,6 +91,7 @@ const deleteCategory = async (req, res, next) => {
       { is_deleted: true },
       { where: { id } },
     );
+
     if (deleteCategoryData) {
       logger.info(`Category ${Messages.DELETE_SUCCESS}`);
       next(
@@ -102,22 +108,7 @@ const deleteCategory = async (req, res, next) => {
 
 const listOfCategory = async (req, res, next) => {
   const { condition, pageSize, page } = req.body;
-  let whereCondition = { is_deleted: 0 };
-
-  if (condition) {
-    if (condition.id) {
-      whereCondition.id = condition.id;
-    }
-    if (condition.user_id) {
-      whereCondition.user_id = condition.user_id;
-    }
-    if (condition.category_name) {
-      whereCondition.category_name = condition.category_name;
-    }
-    if (condition.category_description) {
-      whereCondition.category_description = condition.category_description;
-    }
-  }
+  let whereCondition = await filter({ is_deleted: 0 }, condition);
 
   const listOfCategories = await listData(
     category,

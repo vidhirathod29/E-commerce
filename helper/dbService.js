@@ -10,7 +10,7 @@ const listData = async (
   const limit = pageSize;
   const data = await model.findAndCountAll({
     attributes: attributes.length > 0 ? attributes : undefined,
-    where: Object.keys(where).length > 0 ? where : undefined,
+    where: Object.keys(where).length > 0 ? where : {},
     include: include.length > 0 ? include : undefined,
     offset,
     limit,
@@ -28,4 +28,20 @@ const listData = async (
   };
 };
 
-module.exports = { listData };
+const filter = async (condition, payload) => {
+  if (!payload) {
+    return condition;
+  }
+
+  const where = { ...condition };
+
+  Object.keys(payload).forEach((key) => {
+    if (payload[key]) {
+      where[key] = payload[key];
+    }
+  });
+
+  return where;
+};
+
+module.exports = { listData, filter };
