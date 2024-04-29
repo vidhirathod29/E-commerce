@@ -28,6 +28,8 @@ db.sequelize = sequelize;
 db.countryModel = require('../models/country')(sequelize, Sequelize);
 db.stateModel = require('../models/state')(sequelize, Sequelize);
 db.cityModel = require('../models/city')(sequelize, Sequelize);
+db.authModel = require('../models/auth')(sequelize, Sequelize);
+
 db.sequelize.sync().then(() => {
   logger.info('Re-sync');
 });
