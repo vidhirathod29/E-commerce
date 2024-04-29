@@ -6,19 +6,19 @@ const {
 } = require('../service/authService');
 
 module.exports = {
-  registration: async (req, res, next) => {
-    await registration(req, res, next);
+  registrationController: (req, res, next) => {
+    return registration(req, res, next);
   },
 
-  login: async (req, res, next) => {
-    await login(req, res, next);
+  loginController: (req, res, next) => {
+    return login(req, res, next);
+  },
+
+  updateProfileController: (req, res, next) => {
+    return updateProfile(req, res, next);
   },
   
-  updateProfile: async (req, res, next) => {
-    await updateProfile(req, res, next);
-  },
-  
-  viewProfile: async (req, res, next) => {
-    await viewProfile(req, res, next);
+  viewProfileController: (req, res, next) => {
+    return viewProfile(req, res, next);
   },
 };
