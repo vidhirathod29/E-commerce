@@ -1,32 +1,38 @@
-const { Sequelize } = require('sequelize');
+const { ROLES, GENDER } = require('../utils/enum');
 
 module.exports = (sequelize, Sequelize) => {
   const users = sequelize.define(
     'users',
     {
       name: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(50),
+        allowNull: false,
       },
       email: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(50),
         unique: true,
+        allowNull: false,
       },
       password: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(150),
+        allowNull: false,
       },
       phone_number: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(10),
+        allowNull: false,
       },
       gender: {
-        type: Sequelize.STRING,
-        enum: ['MALE', 'FEMALE'],
+        type: Sequelize.STRING(11),
+        enum: [GENDER.MALE, GENDER.FEMALE],
+        allowNull: false,
       },
       profile_image: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(50),
       },
       role: {
-        type: Sequelize.STRING,
-        enum: ['ADMIN', 'CUSTOMER'],
+        type: Sequelize.STRING(10),
+        enum: [ROLES.ADMIN, ROLES.CUSTOMER],
+        allowNull: false,
       },
       created_at: {
         type: Sequelize.DATE,
@@ -43,11 +49,5 @@ module.exports = (sequelize, Sequelize) => {
     },
     { freezeTableName: true, timestamps: false },
   );
-  const category = require('./category')(sequelize, Sequelize);
-  users.hasMany(category, {
-    foreignKey: 'user_id',
-    sourceKey: 'id',
-  });
-
   return users;
 };
