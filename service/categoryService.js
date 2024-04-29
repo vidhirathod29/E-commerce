@@ -1,5 +1,5 @@
 const db = require('../models/db');
-const user = db.authModel; // Use the correct model name 'users'
+const user = db.authModel; 
 const category = db.categoryModel;
 const { StatusCodes } = require('http-status-codes');
 const { RESPONSE_STATUS } = require('../utils/enum');

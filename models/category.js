@@ -5,12 +5,12 @@ module.exports = (sequelize, Sequelize) => {
     'category',
     {
       user_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.INTEGER(11),
         allowNull: false,
       },
       category_name: {
-        type: Sequelize.STRING,
-        unique: true,
+        type: Sequelize.STRING(50),
+        allowNull: false,
       },
       category_description: {
         type: Sequelize.TEXT,
