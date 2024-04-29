@@ -12,13 +12,13 @@ const {
 } = require('../validation/authValidation');
 const { ROLES } = require('../utils/enum');
 const {
-  registration,
-  login,
-  updateProfile,
-  viewProfile,
-  resetPassword,
-  verifyEmail,
-  updatePassword,
+  registrationController,
+  loginController,
+  updateProfileController,
+  viewProfileController,
+  resetPasswordController,
+  verifyEmailController,
+  updatePasswordController,
 } = require('../controller/authController');
 const { authorization } = require('../middleware/authentication');
 const upload = require('../middleware/multer');
@@ -27,40 +27,40 @@ router.post(
   '/registration',
   upload.single('profile_image'),
   validator.body(registrationValidation),
-  errorHandler(registration),
+  errorHandler(registrationController),
 );
 
-router.post('/login', validator.body(loginValidation), errorHandler(login));
+router.post('/login', validator.body(loginValidation), errorHandler(loginController));
 
 router.put(
   '/editProfile',
   authorization([ROLES.ADMIN, ROLES.CUSTOMER]),
   upload.single('profile_image'),
   validator.body(updateValidation),
-  errorHandler(updateProfile),
+  errorHandler(updateProfileController),
 );
 
 router.get(
   '/viewProfile',
   authorization([ROLES.ADMIN, ROLES.CUSTOMER]),
-  errorHandler(viewProfile),
+  errorHandler(viewProfileController),
 );
 router.put(
   '/resetPassword',
   authorization([ROLES.ADMIN, ROLES.CUSTOMER]),
   validator.body(resetPasswordValidation),
-  errorHandler(resetPassword),
+  errorHandler(resetPasswordController),
 );
 
 router.post(
   '/verifyEmail',
   validator.body(verifyEmailValidation),
-  errorHandler(verifyEmail),
+  errorHandler(verifyEmailController),
 );
 
 router.put(
   '/updatePassword',
   validator.body(updatePasswordValidation),
-  errorHandler(updatePassword),
+  errorHandler(updatePasswordController),
 );
 module.exports = router;

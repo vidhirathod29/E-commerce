@@ -9,25 +9,25 @@ const {
 } = require('../service/authService');
 
 module.exports = {
-  registration: async (req, res, next) => {
-    await registration(req, res, next);
+  registrationController: (req, res, next) => {
+    return registration(req, res, next);
   },
-  login: async (req, res, next) => {
-    await login(req, res, next);
+  loginController: (req, res, next) => {
+    return login(req, res, next);
   },
-  updateProfile: async (req, res, next) => {
-    await updateProfile(req, res, next);
+  updateProfileController: (req, res, next) => {
+    return updateProfile(req, res, next);
   },
-  viewProfile: async (req, res, next) => {
-    await viewProfile(req, res, next);
+  viewProfileController: (req, res, next) => {
+    return viewProfile(req, res, next);
   },
-  resetPassword: async (req, res, next) => {
-    await resetPassword(req, res, next);
+  resetPasswordController: (req, res, next) => {
+    return resetPassword(req, res, next);
   },
-  verifyEmail: async (req, res, next) => {
-    await verifyEmail(req, res, next);
+  verifyEmailController: (req, res, next) => {
+    return verifyEmail(req, res, next);
   },
-  updatePassword: async (req, res, next) => {
-    await updatePassword(req, res, next);
+  updatePasswordController: (req, res, next) => {
+    return updatePassword(req, res, next);
   },
 };
