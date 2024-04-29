@@ -30,7 +30,11 @@ router.post(
   errorHandler(registrationController),
 );
 
-router.post('/login', validator.body(loginValidation), errorHandler(loginController));
+router.post(
+  '/login',
+  validator.body(loginValidation),
+  errorHandler(loginController),
+);
 
 router.put(
   '/editProfile',
