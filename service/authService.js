@@ -13,7 +13,6 @@ const registration = async (req, res, next) => {
   const { name, email, phone_number, password, gender, role } = req.body;
 
   const existUser = await auth.findOne({ where: { email } });
-
   if (!existUser) {
     const encryptPassword = await bcrypt.hash(password, 10);
     const userData = {
@@ -43,7 +42,7 @@ const registration = async (req, res, next) => {
     next(
       new GeneralError(
         `User ${Messages.ALREADY_EXIST}`,
-        StatusCodes.FORBIDDEN,
+        StatusCodes.CONFLICT,
         undefined,
         RESPONSE_STATUS.ERROR,
       ),
@@ -82,7 +81,6 @@ const login = async (req, res, next) => {
   } else {
     let token = generateToken({
       email,
-      password,
       role: findUser.role,
       id: findUser.id,
     });

@@ -5,28 +5,34 @@ module.exports = (sequelize, Sequelize) => {
     'users',
     {
       name: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(50),
+        allowNull: false,
       },
       email: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(50),
         unique: true,
+        allowNull: false,
       },
       password: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(150),
+        allowNull: false,
       },
       phone_number: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(10),
+        allowNull: false,
       },
       gender: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(11),
         enum: [GENDER.MALE, GENDER.FEMALE],
+        allowNull: false,
       },
       profile_image: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(50),
       },
       role: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(10),
         enum: [ROLES.ADMIN, ROLES.CUSTOMER],
+        allowNull: false,
       },
       created_at: {
         type: Sequelize.DATE,
