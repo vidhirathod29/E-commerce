@@ -3,17 +3,19 @@ module.exports = (sequelize, Sequelize) => {
     'country',
     {
       country_name: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(50),
+        allowNull: false,
       },
     },
+
     { freezeTableName: true, timestamps: false },
   );
 
-  const state = require('./state')(sequelize, Sequelize); 
+  const state = require('./state')(sequelize, Sequelize);
 
   country.hasMany(state, {
     foreignKey: 'country_id',
-    sourceKey: 'id', 
+    sourceKey: 'id',
   });
 
   return country;

@@ -3,14 +3,16 @@ module.exports = (sequelize, Sequelize) => {
     'state',
     {
       country_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.INTEGER(11),
         references: {
           model: 'country',
           key: 'id',
         },
+        allowNull: false,
       },
       state_name: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(50),
+        allowNull: false,
       },
     },
     { freezeTableName: true, timestamps: false },
