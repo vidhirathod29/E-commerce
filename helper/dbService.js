@@ -17,6 +17,7 @@ const listData = async (
     include: include.length > 0 ? include : undefined,
     offset,
     limit,
+    order: [['id', 'ASC']],
   });
 
   const totalCount = data.count;

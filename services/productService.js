@@ -21,6 +21,7 @@ const addProduct = async (req, res, next) => {
     product_description,
     product_quantity,
     images,
+    selectedImage,
   } = req.body;
 
   const productData = {
@@ -36,6 +37,19 @@ const addProduct = async (req, res, next) => {
 
   if (images && images.length > 0) {
     await addImages(addProduct.id, images);
+  }
+
+  for (const product_image of images) {
+    if (product_image === selectedImage) {
+      await productImage.update(
+        { status: true },
+        {
+          where: {
+            product_image,
+          },
+        },
+      );
+    }
   }
 
   if (addProduct) {
@@ -168,11 +182,63 @@ const deleteProductImage = async (req, res, next) => {
   }
 };
 
-const productList = async (req, res, next) => {
-  const { condition, pageSize, page } = req.body;
-  let whereCondition = await filter({ is_deleted: 0 }, condition);
+const viewProduct = async (req, res, next) => {
+  const id = req.params.id;
 
-  const listOfProducts = await listData(
+  const viewProduct = await product.findOne({
+    attributes: ['id', 'user_id', 'category_id', 'product_name', 'price'],
+    where: { id, is_deleted: 0 },
+    include: [
+      {
+        model: user,
+        attributes: ['name'],
+        where: {
+          is_deleted: 0,
+        },
+      },
+      {
+        model: category,
+        attributes: ['id', 'category_name'],
+        where: {
+          is_deleted: 0,
+        },
+      },
+      {
+        model: productImage,
+        attributes: ['id', 'product_image'],
+        required: false,
+      },
+    ],
+  });
+
+  if (viewProduct) {
+    logger.info(`Product ${Messages.GET_SUCCESS}`);
+    next(
+      new GeneralError(
+        undefined,
+        StatusCodes.OK,
+        viewProduct,
+        RESPONSE_STATUS.SUCCESS,
+      ),
+    );
+  } else {
+    logger.error(`Product  ${Messages.NOT_FOUND}`);
+    next(
+      new GeneralError(
+        `Product  ${Messages.NOT_FOUND}`,
+        StatusCodes.NOT_FOUND,
+        undefined,
+        RESPONSE_STATUS.ERROR,
+      ),
+    );
+  }
+};
+
+const listOfProduct = async (req, res, next) => {
+  const { pageSize, page } = req.body;
+  let whereCondition = await filter({ is_deleted: 0 });
+
+  const listOfProduct = await listData(
     product,
     ['id', 'user_id', 'category_id', 'product_name', 'price'],
     whereCondition,
@@ -195,7 +261,7 @@ const productList = async (req, res, next) => {
         model: productImage,
         attributes: ['id', 'product_image'],
         where: {
-          status: 0,
+          status: true,
         },
         required: false,
       },
@@ -204,13 +270,13 @@ const productList = async (req, res, next) => {
     pageSize,
   );
 
-  if (listOfProducts) {
+  if (listOfProduct) {
     logger.info(`Product ${Messages.GET_SUCCESS}`);
     next(
       new GeneralError(
         undefined,
         StatusCodes.OK,
-        listOfProducts,
+        listOfProduct,
         RESPONSE_STATUS.SUCCESS,
       ),
     );
@@ -222,5 +288,6 @@ module.exports = {
   updateProduct,
   deleteProduct,
   deleteProductImage,
-  productList,
+  viewProduct,
+  listOfProduct,
 };

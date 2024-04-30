@@ -15,5 +15,11 @@ module.exports = {
     LOGIN_SUCCESS: 'You have login successfully',
     NO_VALID_FIELDS: 'No valid fields are provided',
     GET_SUCCESS: 'data get successfully',
+    INVALID_OLD_PASS: 'Invalid old password',
+    PASS_RESET_SUCCESS: 'Password reset successfully',
+    OTP_GENERATE_FAIL: 'Failed to generate otp',
+    OTP_SENT_SUCCESS: 'Otp sent successfully',
+    INVALID_OTP: 'Invalid otp',
+    OTP_EXPIRE: 'Otp is expired',
   },
 };

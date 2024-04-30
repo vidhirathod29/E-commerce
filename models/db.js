@@ -27,6 +27,7 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 db.categoryModel = require('../models/category')(sequelize, Sequelize);
 db.authModel = require('../models/auth')(sequelize, Sequelize);
+db.otpModel = require('../models/otp')(sequelize, Sequelize);
 db.productModel = require('../models/product')(sequelize, Sequelize);
 db.productImageModel = require('../models/product_image')(sequelize, Sequelize);
 
@@ -41,6 +42,7 @@ db.productModel.belongsTo(db.categoryModel, { foreignKey: 'category_id' });
 db.productModel.hasMany(db.productImageModel, { foreignKey: 'product_id' });
 
 db.productImageModel.belongsTo(db.productModel, { foreignKey: 'product_id' });
+
 
 db.sequelize.sync().then(() => {
   logger.info('Re-sync');

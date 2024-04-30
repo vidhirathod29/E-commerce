@@ -28,6 +28,16 @@ module.exports = {
       'number.empty': 'Product quantity should not be empty',
       'any.required': 'Product quantity is a required field',
     }),
+    images: Joi.array().empty().required().messages({
+      'array.base': 'Product image should be type of array',
+      'array.empty': 'Product image should not be empty',
+      'any.required': 'Product image is a required field',
+    }),
+    selectedImage: Joi.string().empty().required().messages({
+      'string.base': 'Selected image should be type of string',
+      'string.empty': 'Selected image should not be empty',
+      'any.required': 'Selected image is a required field',
+    }),
   }),
 
   updateProductValidation: Joi.object({
@@ -46,9 +56,12 @@ module.exports = {
     images: Joi.array().optional().messages({
       'array.base': 'Product image should be type of array',
     }),
+    status: Joi.number().optional().messages({
+      'number.base': 'Product quantity should be type of number',
+    }),
   }),
 
-  listOfProductValidation: Joi.object({
+  viewProductValidation: Joi.object({
     condition: Joi.object().optional().messages({
       'object.base': 'Condition should be type of an object',
     }),

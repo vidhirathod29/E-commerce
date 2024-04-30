@@ -7,13 +7,14 @@ const {
   updateProduct,
   deleteProduct,
   deleteProductImage,
-  productList,
+  viewProduct,
+  listOfProduct,
 } = require('../controller/productController');
 const { ROLES } = require('../utils/enum');
 const {
   addProductValidation,
   updateProductValidation,
-  listOfProductValidation,
+  viewProductValidation,
 } = require('../validation/productValidation');
 const { authorization } = require('../middleware/authentication');
 
@@ -43,11 +44,16 @@ router.delete(
   errorHandler(deleteProductImage),
 );
 
+router.get(
+  '/viewProduct/:id',
+  authorization([ROLES.ADMIN, ROLES.CUSTOMER]),
+  validator.body(viewProductValidation),
+  errorHandler(viewProduct),
+);
+
 router.post(
   '/listOfProduct',
   authorization([ROLES.ADMIN, ROLES.CUSTOMER]),
-  validator.body(listOfProductValidation),
-  errorHandler(productList),
+  errorHandler(listOfProduct),
 );
-
 module.exports = router;
