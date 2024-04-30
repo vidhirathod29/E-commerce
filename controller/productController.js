@@ -5,7 +5,7 @@ const {
   deleteProductImage,
   viewProduct,
   listOfProduct
-} = require('../services/productService');
+} = require('../service/productService');
 
 module.exports = {
   addProduct: (req, res, next) => {
