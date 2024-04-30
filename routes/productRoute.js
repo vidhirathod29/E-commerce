@@ -3,12 +3,12 @@ const router = express.Router();
 const { errorHandler } = require('../helper/error');
 const { validator } = require('../validation/validator');
 const {
-  addProduct,
-  updateProduct,
-  deleteProduct,
-  deleteProductImage,
-  viewProduct,
-  listOfProduct,
+  addProductController,
+  updateProductController,
+  deleteProductController,
+  deleteProductImageController,
+  viewProductController,
+  listOfProductController,
 } = require('../controller/productController');
 const { ROLES } = require('../utils/enum');
 const {
@@ -22,38 +22,38 @@ router.post(
   '/addProduct',
   authorization([ROLES.ADMIN]),
   validator.body(addProductValidation),
-  errorHandler(addProduct),
+  errorHandler(addProductController),
 );
 
 router.put(
   '/updateProduct/:id',
   authorization([ROLES.ADMIN]),
   validator.body(updateProductValidation),
-  errorHandler(updateProduct),
+  errorHandler(updateProductController),
 );
 
 router.delete(
   '/deleteProduct/:id',
   authorization([ROLES.ADMIN]),
-  errorHandler(deleteProduct),
+  errorHandler(deleteProductController),
 );
 
 router.delete(
   '/deleteProductImage/:id',
   authorization([ROLES.ADMIN]),
-  errorHandler(deleteProductImage),
+  errorHandler(deleteProductImageController),
 );
 
 router.get(
   '/viewProduct/:id',
   authorization([ROLES.ADMIN, ROLES.CUSTOMER]),
   validator.body(viewProductValidation),
-  errorHandler(viewProduct),
+  errorHandler(viewProductController),
 );
 
 router.post(
   '/listOfProduct',
   authorization([ROLES.ADMIN, ROLES.CUSTOMER]),
-  errorHandler(listOfProduct),
+  errorHandler(listOfProductController),
 );
 module.exports = router;
