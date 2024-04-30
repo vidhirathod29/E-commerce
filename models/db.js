@@ -20,6 +20,7 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 db.authModel = require('../models/auth')(sequelize, Sequelize);
+db.otpModel = require('../models/otp')(sequelize, Sequelize);
 
 db.sequelize.sync().then(() => {
   logger.info('Re-sync');
