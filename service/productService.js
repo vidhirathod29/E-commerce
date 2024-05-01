@@ -67,7 +67,7 @@ const addProduct = async (req, res, next) => {
 
 const updateProduct = async (req, res, next) => {
   const id = req.params.id;
-  const findId = await product.findOne({ where: { id } });
+  const findId = await product.findOne({ where: { id, is_deleted: false } });
 
   const { product_name, price, product_description, product_quantity, images } =
     req.body;
@@ -116,7 +116,7 @@ const updateProduct = async (req, res, next) => {
 
 const deleteProduct = async (req, res, next) => {
   const id = req.params.id;
-  const findId = product.findOne({ where: { id } });
+  const findId = product.findOne({ where: { id, is_deleted: false } });
 
   if (findId) {
     const deleteProduct = await product.update(
