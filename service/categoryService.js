@@ -20,18 +20,20 @@ const addUpdateCategory = async (req, res, next) => {
     category_name,
     category_description,
   };
-  
+
   const updateData = {
     category_name,
     category_description,
   };
 
   if (id) {
-    const findCategory = await category.findOne({ id });
+    const findCategory = await category.findOne({
+      where: { id, is_deleted: false },
+    });
 
     if (findCategory) {
       const updateCategory = await category.update(updateData, {
-        where: { id },
+        where: { id, is_deleted: false },
       });
 
       if (updateCategory.length > 0) {
