@@ -1,7 +1,7 @@
 const { ROLES, GENDER } = require('../utils/enum');
 
 module.exports = (sequelize, Sequelize) => {
-  return sequelize.define(
+  const users = sequelize.define(
     'users',
     {
       name: {
@@ -49,4 +49,5 @@ module.exports = (sequelize, Sequelize) => {
     },
     { freezeTableName: true, timestamps: false },
   );
+  return users;
 };

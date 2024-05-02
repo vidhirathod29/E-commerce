@@ -28,4 +28,20 @@ const listData = async (
   };
 };
 
-module.exports = { listData };
+const filter = async (condition, payload) => {
+  if (!payload) {
+    return condition;
+  }
+
+  const where = { ...condition };
+
+  Object.keys(payload).forEach((key) => {
+    if (payload[key]) {
+      where[key] = payload[key];
+    }
+  });
+
+  return where;
+};
+
+module.exports = { listData, filter };
