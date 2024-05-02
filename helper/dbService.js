@@ -32,16 +32,6 @@ const listData = async (
   };
 };
 
-async function addImages(product_id, images) {
-  const image = images.map((image) => ({
-    product_id,
-    product_image: image,
-    status: 'false',
-  }));
-  const createdImages = await product_image.bulkCreate(image);
-  return createdImages;
-}
-
 const filter = async (condition, payload) => {
   if (!payload) {
     return condition;
@@ -58,4 +48,4 @@ const filter = async (condition, payload) => {
   return where;
 };
 
-module.exports = { listData, addImages, filter };
+module.exports = { listData, filter };
