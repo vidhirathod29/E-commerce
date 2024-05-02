@@ -76,7 +76,9 @@ const addUpdateCategory = async (req, res, next) => {
 
 const deleteCategory = async (req, res, next) => {
   const id = req.params.id;
-  const findCategory = await category.findOne({ where: { id } });
+  const findCategory = await category.findOne({
+    where: { id, is_deleted: false },
+  });
 
   if (!findCategory) {
     logger.error(`Category ${Messages.NOT_FOUND}`);
