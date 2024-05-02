@@ -1,23 +1,24 @@
 const { Sequelize } = require('sequelize');
-const { users } = require('./auth');
 
 module.exports = (sequelize, Sequelize) => {
   const category = sequelize.define(
     'category',
     {
       user_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.INTEGER(11),
         references: {
           model: 'users',
           key: 'id',
         },
+        allowNull: false,
       },
       category_name: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(50),
         allowNull: false,
       },
       category_description: {
         type: Sequelize.TEXT,
+        allowNull: true,
       },
       created_at: {
         type: Sequelize.DATE,

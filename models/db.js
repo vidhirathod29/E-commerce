@@ -46,6 +46,7 @@ db.productModel.hasMany(db.productImageModel, { foreignKey: 'product_id' });
 
 db.productImageModel.belongsTo(db.productModel, { foreignKey: 'product_id' });
 
+db.categoryModel = require('../models/category')(sequelize, Sequelize);
 
 db.sequelize.sync().then(() => {
   logger.info('Re-sync');
