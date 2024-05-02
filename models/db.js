@@ -1,11 +1,17 @@
 const { Sequelize } = require('sequelize');
 const { Messages } = require('../utils/messages');
 const logger = require('../logger/logger');
+require('dotenv').config();
 
-const sequelize = new Sequelize('e-commerce', 'root', '', {
-  host: 'localhost',
-  dialect: 'mysql',
-});
+const sequelize = new Sequelize(
+  process.env.DATABASE,
+  process.env.USER_NAME,
+  '',
+  {
+    host: process.env.HOST,
+    dialect: process.env.DIALECT,
+  },
+);
 
 sequelize
   .authenticate()
@@ -21,6 +27,21 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 db.authModel = require('../models/auth')(sequelize, Sequelize);
 db.otpModel = require('../models/otp')(sequelize, Sequelize);
+db.productModel = require('../models/product')(sequelize, Sequelize);
+db.productImageModel = require('../models/product_image')(sequelize, Sequelize);
+db.cartModel = require('../models/cart')(sequelize, Sequelize);
+
+db.authModel.hasMany(db.productModel, { foreignKey: 'user_id' });
+db.authModel.hasMany(db.cartModel, { foreignKey: 'user_id' });
+
+db.productModel.belongsTo(db.authModel, { foreignKey: 'user_id' });
+db.productModel.hasMany(db.cartModel, { foreignKey: 'product_id' });
+
+db.cartModel.belongsTo(db.authModel, { foreignKey: 'user_id' });
+db.cartModel.belongsTo(db.productModel, { foreignKey: 'product_id' });
+
+db.productModel.hasMany(db.productImageModel, { foreignKey: 'product_id' });
+db.productImageModel.belongsTo(db.productModel, { foreignKey: 'product_id' });
 
 db.sequelize.sync().then(() => {
   logger.info('Re-sync');
