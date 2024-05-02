@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const categoryRoute = require('./categoryRoute');
 const authRoute = require('./authRoute');
 const addressRoute = require('./addressRoute');
-const categoryRoute = require('./categoryRoute');
 const cartRoute = require('./cartRoute');
 
 router.use('/user', authRoute);
