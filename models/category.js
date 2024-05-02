@@ -35,10 +35,10 @@ module.exports = (sequelize, Sequelize) => {
     },
     { freezeTableName: true, timestamps: false },
   );
-  // category.belongsTo(sequelize.models.users, {
-  //   foreignKey: 'user_id',
-  //   targetKey: 'id',
-  // });
+  category.belongsTo(sequelize.models.users, {
+    foreignKey: 'user_id',
+    targetKey: 'id',
+  });
 
   return category;
 };
