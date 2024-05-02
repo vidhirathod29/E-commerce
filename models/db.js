@@ -25,6 +25,9 @@ sequelize
 const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
+db.countryModel = require('../models/country')(sequelize, Sequelize);
+db.stateModel = require('../models/state')(sequelize, Sequelize);
+db.cityModel = require('../models/city')(sequelize, Sequelize);
 db.authModel = require('../models/auth')(sequelize, Sequelize);
 db.otpModel = require('../models/otp')(sequelize, Sequelize);
 db.productModel = require('../models/product')(sequelize, Sequelize);
