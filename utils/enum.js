@@ -8,7 +8,7 @@ module.exports = {
     CUSTOMER: 'Customer',
   },
   GENDER: {
-    FEMALE: 'Female',
     MALE: 'Male',
+    FEMALE: 'Female',
   },
 };

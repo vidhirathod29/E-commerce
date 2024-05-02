@@ -9,7 +9,7 @@ const { GeneralResponse } = require('../utils/response');
 const { Messages } = require('../utils/messages');
 const { GeneralError } = require('../utils/error');
 const logger = require('../logger/logger');
-const { listData, addImages, filter } = require('../helper/dbService');
+const { listData, bulkCreate, filter } = require('../helper/dbService');
 
 const addProduct = async (req, res, next) => {
   const userId = req.user.id;
@@ -36,7 +36,12 @@ const addProduct = async (req, res, next) => {
   const addProduct = await product.create(productData);
 
   if (images && images.length > 0) {
-    await addImages(addProduct.id, images);
+    const imageData = images.map((image) => ({
+      product_id: addProduct.id,
+      product_image: image,
+      status: false,
+    }));
+    await bulkCreate(productImage, imageData);
   }
 
   for (const product_image of images) {
@@ -87,7 +92,12 @@ const updateProduct = async (req, res, next) => {
 
     if (images && images.length > 0) {
       await productImage.destroy({ where: { product_id: id } });
-      await addImages(id, images);
+      const imageData = images.map((image) => ({
+        product_id: id,
+        product_image: image,
+        status: false,
+      }));
+      await bulkCreate(productImage, imageData);
     }
 
     if (updateProduct) {

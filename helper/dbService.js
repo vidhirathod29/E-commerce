@@ -1,5 +1,4 @@
 const db = require('../models/db');
-const product_image = db.productImageModel;
 
 const listData = async (
   model,
@@ -13,7 +12,7 @@ const listData = async (
   const limit = pageSize;
   const data = await model.findAndCountAll({
     attributes: attributes.length > 0 ? attributes : undefined,
-    where: Object.keys(where).length > 0 ? where : {},
+    where: Object.keys(where).length > 0 ? where : undefined,
     include: include.length > 0 ? include : undefined,
     offset,
     limit,
@@ -32,15 +31,10 @@ const listData = async (
   };
 };
 
-async function addImages(product_id, images) {
-  const image = images.map((image) => ({
-    product_id,
-    product_image: image,
-    status: 'false',
-  }));
-  const createdImages = await product_image.bulkCreate(image);
-  return createdImages;
-}
+const bulkCreate = async (model, attributes = []) => {
+  const records = await model.bulkCreate(attributes);
+  return records;
+};
 
 const filter = async (condition, payload) => {
   if (!payload) {
@@ -58,4 +52,4 @@ const filter = async (condition, payload) => {
   return where;
 };
 
-module.exports = { listData, addImages, filter };
+module.exports = { listData, bulkCreate, filter };
