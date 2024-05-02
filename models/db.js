@@ -30,6 +30,7 @@ db.stateModel = require('../models/state')(sequelize, Sequelize);
 db.cityModel = require('../models/city')(sequelize, Sequelize);
 db.authModel = require('../models/auth')(sequelize, Sequelize);
 db.otpModel = require('../models/otp')(sequelize, Sequelize);
+db.categoryModel = require('../models/category')(sequelize, Sequelize);
 db.productModel = require('../models/product')(sequelize, Sequelize);
 db.productImageModel = require('../models/product_image')(sequelize, Sequelize);
 db.wishlistModel = require('../models/wishlist')(sequelize, Sequelize);
@@ -45,6 +46,7 @@ db.wishlistModel.belongsTo(db.productModel, { foreignKey: 'product_id' });
 
 db.productModel.hasMany(db.productImageModel, { foreignKey: 'product_id' });
 db.productImageModel.belongsTo(db.productModel, { foreignKey: 'product_id' });
+
 
 db.sequelize.sync().then(() => {
   logger.info('Re-sync');
