@@ -7,7 +7,6 @@ module.exports = {
     NOT_FOUND: 'not found',
     DELETE_SUCCESS: 'deleted successfully',
     INTERNAL_SERVER_ERROR: 'Internal server error',
-    NOT_FOUND: 'not found',
     SOMETHING_WENT_WRONG: 'Something went wrong',
     REGISTER_SUCCESS: 'Congratulations ! you are registered successfully',
     ALREADY_EXIST: 'already exist',
