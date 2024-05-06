@@ -4,7 +4,7 @@ module.exports = (sequelize, Sequelize) => {
     {
       email: {
         type: Sequelize.STRING(50),
-        allowNull: false,
+        unique: true,
       },
       otp: {
         type: Sequelize.INTEGER(6),
