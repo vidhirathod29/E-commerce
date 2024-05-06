@@ -1,8 +1,4 @@
 const db = require('../models/db');
-<<<<<<< HEAD
-const product_image = db.productImageModel;
-=======
->>>>>>> 4af5d0c8151eda2029a53de1e56b4e4618313c11
 
 const listData = async (
   model,
