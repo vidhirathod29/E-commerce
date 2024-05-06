@@ -22,7 +22,6 @@ module.exports = {
     OTP_SENT_SUCCESS: 'Otp sent successfully',
     INVALID_OTP: 'Invalid otp',
     OTP_EXPIRE: 'Otp is expired',
-    ADD_SUCCESS: 'data added successfully',
-    DELETE_SUCCESS: 'deleted successfully',
+    OUT_OF_STOCK: 'out of stock',
   },
 };
