@@ -8,10 +8,8 @@ const {
   deleteWishlistController,
   listOfWishlistController,
 } = require('../controller/wishlistController');
-const {
-  addWishlistValidation,
-  listOfWishlistValidation,
-} = require('../validation/wishlistValidation');
+const { addWishlistValidation } = require('../validation/wishlistValidation');
+const { listOfDataValidation } = require('../validation/listOfDataValidation');
 const { ROLES } = require('../utils/enum');
 
 router.post(
@@ -30,7 +28,7 @@ router.delete(
 router.post(
   '/listOfWishlist',
   authorization([ROLES.CUSTOMER]),
-  validator.body(listOfWishlistValidation),
+  validator.body(listOfDataValidation),
   errorHandler(listOfWishlistController),
 );
 
