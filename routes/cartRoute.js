@@ -13,8 +13,8 @@ const {
 const {
   addCartValidation,
   updateCartValidation,
-  viewCartValidation,
 } = require('../validation/cartValidation');
+const { listOfDataValidation } = require('../validation/listOfDataValidation');
 
 router.post(
   '/addCart',
@@ -39,7 +39,7 @@ router.delete(
 router.post(
   '/viewCart',
   authorization([ROLES.CUSTOMER]),
-  validator.body(viewCartValidation),
+  validator.body(listOfDataValidation),
   errorHandler(viewCartController),
 );
 module.exports = router;
