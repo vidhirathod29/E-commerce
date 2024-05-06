@@ -5,8 +5,8 @@ const { validator } = require('../validation/validator');
 const {
   addAddressValidation,
   updateAddressValidation,
-  listOfAddressValidation,
 } = require('../validation/addressValidation');
+const { listOfDataValidation } = require('../validation/listOfDataValidation');
 const {
   listOfCountryController,
   listOfStateController,
@@ -46,7 +46,7 @@ router.delete(
 router.post(
   '/listOfAddress',
   authorization([ROLES.ADMIN, ROLES.CUSTOMER]),
-  validator.body(listOfAddressValidation),
+  validator.body(listOfDataValidation),
   errorHandler(listOfAddressController),
 );
 

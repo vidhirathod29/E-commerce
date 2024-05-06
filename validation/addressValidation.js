@@ -45,13 +45,4 @@ module.exports = {
       'number.base': 'Zip code should be type of number',
     }),
   }),
-
-  listOfAddressValidation: Joi.object({
-    page: Joi.number().optional().messages({
-      'number.base': 'Page should be type of a number',
-    }),
-    pageSize: Joi.number().optional().messages({
-      'number.base': 'pageSize should be type of a number',
-    }),
-  }),
 };
