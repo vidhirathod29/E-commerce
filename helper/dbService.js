@@ -1,3 +1,5 @@
+const db = require('../models/db');
+
 const listData = async (
   model,
   attributes = [],
@@ -14,6 +16,7 @@ const listData = async (
     include: include.length > 0 ? include : undefined,
     offset,
     limit,
+    order: [['id', 'ASC']],
   });
 
   const totalCount = data.count;
@@ -26,6 +29,11 @@ const listData = async (
     nextPage,
     data: data.rows,
   };
+};
+
+const bulkCreate = async (model, attributes = []) => {
+  const records = await model.bulkCreate(attributes);
+  return records;
 };
 
 const filter = async (condition, payload) => {
@@ -44,4 +52,4 @@ const filter = async (condition, payload) => {
   return where;
 };
 
-module.exports = { listData, filter };
+module.exports = { listData, bulkCreate, filter };
