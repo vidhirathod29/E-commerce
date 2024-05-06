@@ -1,5 +1,8 @@
 const db = require('../models/db');
+<<<<<<< HEAD
 const product_image = db.productImageModel;
+=======
+>>>>>>> 4af5d0c8151eda2029a53de1e56b4e4618313c11
 
 const listData = async (
   model,
@@ -32,6 +35,11 @@ const listData = async (
   };
 };
 
+const bulkCreate = async (model, attributes = []) => {
+  const records = await model.bulkCreate(attributes);
+  return records;
+};
+
 const filter = async (condition, payload) => {
   if (!payload) {
     return condition;
@@ -48,4 +56,4 @@ const filter = async (condition, payload) => {
   return where;
 };
 
-module.exports = { listData, filter };
+module.exports = { listData, bulkCreate, filter };

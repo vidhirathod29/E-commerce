@@ -45,6 +45,17 @@ db.cartModel.belongsTo(db.authModel, { foreignKey: 'user_id' });
 db.cartModel.belongsTo(db.productModel, { foreignKey: 'product_id' });
 
 db.productModel.hasMany(db.productImageModel, { foreignKey: 'product_id' });
+
+db.authModel.hasMany(db.categoryModel, { foreignKey: 'user_id' });
+db.authModel.hasMany(db.productModel, { foreignKey: 'user_id' });
+
+db.categoryModel.belongsTo(db.authModel, { foreignKey: 'user_id' });
+db.categoryModel.hasMany(db.productModel, { foreignKey: 'category_id' });
+
+db.productModel.belongsTo(db.authModel, { foreignKey: 'user_id' });
+db.productModel.belongsTo(db.categoryModel, { foreignKey: 'category_id' });
+db.productModel.hasMany(db.productImageModel, { foreignKey: 'product_id' });
+
 db.productImageModel.belongsTo(db.productModel, { foreignKey: 'product_id' });
 
 db.sequelize.sync().then(() => {
