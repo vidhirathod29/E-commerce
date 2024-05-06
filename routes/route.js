@@ -3,9 +3,11 @@ const router = express.Router();
 const categoryRoute = require('./categoryRoute');
 const authRoute = require('./authRoute');
 const addressRoute = require('./addressRoute');
+const orderRoute = require('./orderRoute');
 
 router.use('/user', authRoute);
 router.use('/address', addressRoute);
 router.use('/category', categoryRoute);
+router.use('/order', orderRoute);
 
 module.exports = router;
