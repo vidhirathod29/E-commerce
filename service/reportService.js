@@ -19,7 +19,6 @@ const { orderFilter, productFilter } = require('../helper/serviceLayer');
 const orderReport = async (req, res, next) => {
   const { id, user_name, orderStatus, startDate, endDate } = req.body;
 
-  console.log('req.body====', req.body);
   let whereCondition = await orderFilter(
     id,
     user_name,
@@ -27,8 +26,6 @@ const orderReport = async (req, res, next) => {
     startDate,
     endDate,
   );
-
-  console.log('whereCondition====', whereCondition);
 
   const orderReport = await order.findAll({
     attributes: ['id', 'total_amount', 'status'],
@@ -94,8 +91,6 @@ const orderReport = async (req, res, next) => {
     ],
   });
 
-  console.log('orderReport==', orderReport);
-
   if (orderReport) {
     logger.info(`Order ${Messages.GET_SUCCESS}`);
     next(
@@ -122,8 +117,6 @@ const orderReport = async (req, res, next) => {
 const productOrder = async (req, res, next) => {
   const { id, user_name, product_name, price, startDate, endDate } = req.body;
 
-  console.log('req.body==', req.body);
-
   let whereCondition = await productFilter(
     id,
     user_name,
@@ -132,8 +125,6 @@ const productOrder = async (req, res, next) => {
     startDate,
     endDate,
   );
-
-  console.log('whereCondition==', whereCondition);
 
   const productOrder = await product.findAll({
     attributes: [
@@ -170,8 +161,6 @@ const productOrder = async (req, res, next) => {
       },
     ],
   });
-
-  console.log('productOrder==', productOrder);
 
   if (productOrder) {
     logger.info(`Product ${Messages.GET_SUCCESS}`);
