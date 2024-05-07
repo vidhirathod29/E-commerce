@@ -11,4 +11,11 @@ module.exports = {
     MALE: 'Male',
     FEMALE: 'Female',
   },
+  STATUS: {
+    PENDING: 'Pending',
+    REJECT: 'Reject',
+    CONFIRMED: 'Confirmed',
+    DELIVER: 'Deliver',
+    APPROVED: 'Approved',
+  },
 };
