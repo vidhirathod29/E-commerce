@@ -33,6 +33,7 @@ db.otpModel = require('../models/otp')(sequelize, Sequelize);
 db.categoryModel = require('../models/category')(sequelize, Sequelize);
 db.productModel = require('../models/product')(sequelize, Sequelize);
 db.productImageModel = require('../models/product_image')(sequelize, Sequelize);
+db.orderModel = require('../models/order')(sequelize, Sequelize);
 
 db.authModel.hasMany(db.categoryModel, { foreignKey: 'user_id' });
 db.authModel.hasMany(db.productModel, { foreignKey: 'user_id' });
