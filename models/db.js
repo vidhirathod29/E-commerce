@@ -33,19 +33,29 @@ db.otpModel = require('../models/otp')(sequelize, Sequelize);
 db.categoryModel = require('../models/category')(sequelize, Sequelize);
 db.productModel = require('../models/product')(sequelize, Sequelize);
 db.productImageModel = require('../models/product_image')(sequelize, Sequelize);
+db.cartModel = require('../models/cart')(sequelize, Sequelize);
 db.orderModel = require('../models/order')(sequelize, Sequelize);
 
-db.authModel.hasMany(db.categoryModel, { foreignKey: 'user_id' });
 db.authModel.hasMany(db.productModel, { foreignKey: 'user_id' });
+
+db.productModel.belongsTo(db.authModel, { foreignKey: 'user_id' });
+
+db.productModel.hasMany(db.productImageModel, { foreignKey: 'product_id' });
+
+db.authModel.hasMany(db.categoryModel, { foreignKey: 'user_id' });
 
 db.categoryModel.belongsTo(db.authModel, { foreignKey: 'user_id' });
 db.categoryModel.hasMany(db.productModel, { foreignKey: 'category_id' });
 
-db.productModel.belongsTo(db.authModel, { foreignKey: 'user_id' });
 db.productModel.belongsTo(db.categoryModel, { foreignKey: 'category_id' });
-db.productModel.hasMany(db.productImageModel, { foreignKey: 'product_id' });
 
 db.productImageModel.belongsTo(db.productModel, { foreignKey: 'product_id' });
+
+db.authModel.hasMany(db.cartModel, { foreignKey: 'user_id' });
+db.productModel.hasMany(db.cartModel, { foreignKey: 'product_id' });
+
+db.cartModel.belongsTo(db.authModel, { foreignKey: 'user_id' });
+db.cartModel.belongsTo(db.productModel, { foreignKey: 'product_id' });
 
 db.sequelize.sync().then(() => {
   logger.info('Re-sync');

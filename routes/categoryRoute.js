@@ -10,8 +10,8 @@ const { validator } = require('../validation/validator');
 const {
   addCategoryValidation,
   updateCategoryValidation,
-  listOfCategoryValidation,
 } = require('../validation/categoryValidation');
+const { listOfDataValidation } = require('../validation/listOfDataValidation');
 const { ROLES } = require('../utils/enum');
 const { authorization } = require('../middleware/authentication');
 
@@ -38,7 +38,7 @@ router.delete(
 router.post(
   '/listOfCategory',
   authorization([ROLES.ADMIN, ROLES.CUSTOMER]),
-  validator.body(listOfCategoryValidation),
+  validator.body(listOfDataValidation),
   errorHandler(listOfCategoryController),
 );
 
