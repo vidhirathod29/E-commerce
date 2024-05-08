@@ -14,8 +14,8 @@ const { ROLES } = require('../utils/enum');
 const {
   addProductValidation,
   updateProductValidation,
-  listProductValidation,
 } = require('../validation/productValidation');
+const { listOfDataValidation } = require('../validation/listOfDataValidation');
 const { authorization } = require('../middleware/authentication');
 
 router.post(
@@ -53,7 +53,7 @@ router.get(
 router.post(
   '/listOfProduct',
   authorization([ROLES.ADMIN, ROLES.CUSTOMER]),
-  validator.body(listProductValidation),
+  validator.body(listOfDataValidation),
   errorHandler(listOfProductController),
 );
 module.exports = router;

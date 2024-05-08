@@ -60,13 +60,4 @@ module.exports = {
       'number.base': 'Product quantity should be type of number',
     }),
   }),
-
-  listProductValidation: Joi.object({
-    page: Joi.number().optional().messages({
-      'number.base': 'page should be type of a number',
-    }),
-    pageSize: Joi.number().optional().messages({
-      'number.base': 'pageSize should be type of a number',
-    }),
-  }),
 };
