@@ -42,8 +42,9 @@ module.exports = {
     address_line2: Joi.string().optional().messages({
       'string.base': 'Address line 2 should be type of string',
     }),
-    zip_code: Joi.number().optional().messages({
-      'number.base': 'Zip code should be type of number',
+    zip_code: Joi.string().optional().length(6).messages({
+      'string.base': 'Zip code should be type of string',
+      'string.length': 'zip code should contain 6 digits',
     }),
   }),
 };
