@@ -18,9 +18,5 @@ module.exports = (sequelize, Sequelize) => {
     { freezeTableName: true, timestamps: false },
   );
 
-  city.belongsTo(sequelize.models.state, {
-    foreignKey: 'state_id',
-  });
-
   return city;
 };
