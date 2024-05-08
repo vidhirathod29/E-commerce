@@ -27,9 +27,10 @@ module.exports = {
       'string.empty': 'Address line 2 should not be empty',
       'any.required': 'Address line 2 is required',
     }),
-    zip_code: Joi.number().empty().required().messages({
+    zip_code: Joi.number().empty().min(6).required().messages({
       'number.base': 'Zip code should be type of number',
       'number.empty': 'Zip code should not be empty',
+      'number.min': 'zip code should contain 6 digits',
       'any.required': 'Zip code is required',
     }),
   }),
