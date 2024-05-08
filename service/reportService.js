@@ -17,10 +17,9 @@ const logger = require('../logger/logger');
 const { orderFilter, productFilter } = require('../helper/serviceLayer');
 
 const orderReport = async (req, res, next) => {
-  const { id, user_name, orderStatus, startDate, endDate } = req.body;
+  const { user_name, orderStatus, startDate, endDate } = req.body;
 
   let whereCondition = await orderFilter(
-    id,
     user_name,
     orderStatus,
     startDate,
@@ -115,10 +114,9 @@ const orderReport = async (req, res, next) => {
 };
 
 const productOrder = async (req, res, next) => {
-  const { id, user_name, product_name, price, startDate, endDate } = req.body;
+  const { user_name, product_name, price, startDate, endDate } = req.body;
 
   let whereCondition = await productFilter(
-    id,
     user_name,
     product_name,
     price,

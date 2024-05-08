@@ -8,7 +8,10 @@ const {
 } = require('../controller/reportController');
 const { authorization } = require('../middleware/authentication');
 const { ROLES } = require('../utils/enum');
-const { orderReportValidation } = require('../validation/reportValidation');
+const {
+  orderReportValidation,
+  productReportValidation,
+} = require('../validation/reportValidation');
 
 router.post(
   '/orderReport',
@@ -20,7 +23,7 @@ router.post(
 router.post(
   '/productReport',
   authorization([ROLES.ADMIN]),
-  validator.body(productReportController),
+  validator.body(productReportValidation),
   errorHandler(productReportController),
 );
 

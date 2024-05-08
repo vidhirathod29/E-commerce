@@ -1,12 +1,8 @@
 const moment = require('moment');
 const { Op } = require('sequelize');
 
-const orderFilter = async (id, user_name, orderStatus, startDate, endDate) => {
+const orderFilter = async (user_name, orderStatus, startDate, endDate) => {
   let filter = {};
-
-  if (id) {
-    filter.id = id;
-  }
 
   if (user_name) {
     filter['$user.name$'] = { [Op.like]: `%${user_name}%` };
@@ -30,7 +26,6 @@ const orderFilter = async (id, user_name, orderStatus, startDate, endDate) => {
 };
 
 const productFilter = async (
-  id,
   user_name,
   product_name,
   price,
@@ -38,10 +33,6 @@ const productFilter = async (
   endDate,
 ) => {
   let filter = {};
-
-  if (id) {
-    filter.id = id;
-  }
 
   if (user_name) {
     filter['$user.name$'] = { [Op.like]: `%${user_name}%` };
