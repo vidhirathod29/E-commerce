@@ -1,8 +1,8 @@
 const { Sequelize } = require('sequelize');
 
 module.exports = (sequelize, Sequelize) => {
-  const category = sequelize.define(
-    'category',
+  const cart = sequelize.define(
+    'cart',
     {
       user_id: {
         type: Sequelize.INTEGER(11),
@@ -12,13 +12,17 @@ module.exports = (sequelize, Sequelize) => {
         },
         allowNull: false,
       },
-      category_name: {
-        type: Sequelize.STRING(50),
+      product_id: {
+        type: Sequelize.INTEGER(11),
+        references: {
+          model: 'product',
+          key: 'id',
+        },
         allowNull: false,
       },
-      category_description: {
-        type: Sequelize.TEXT,
-        allowNull: true,
+      quantity: {
+        type: Sequelize.INTEGER(10),
+        allowNull: false,
       },
       created_at: {
         type: Sequelize.DATE,
@@ -35,10 +39,6 @@ module.exports = (sequelize, Sequelize) => {
     },
     { freezeTableName: true, timestamps: false },
   );
-  category.belongsTo(sequelize.models.users, {
-    foreignKey: 'user_id',
-    targetKey: 'id',
-  });
 
-  return category;
+  return cart;
 };
