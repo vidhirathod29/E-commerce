@@ -1,17 +1,21 @@
 module.exports = (sequelize, Sequelize) => {
-  return sequelize.define(
-    'otp',
+  const wishlist = sequelize.define(
+    'wishlist',
     {
-      email: {
-        type: Sequelize.STRING(50),
-        unique: true,
-      },
-      otp: {
-        type: Sequelize.INTEGER(6),
+      user_id: {
+        type: Sequelize.INTEGER(11),
+        references: {
+          model: 'users',
+          key: 'id',
+        },
         allowNull: false,
       },
-      expireTime: {
-        type: Sequelize.DATE,
+      product_id: {
+        type: Sequelize.INTEGER(11),
+        references: {
+          model: 'product',
+          key: 'id',
+        },
         allowNull: false,
       },
       created_at: {
@@ -25,4 +29,5 @@ module.exports = (sequelize, Sequelize) => {
     },
     { freezeTableName: true, timestamps: false },
   );
+  return wishlist;
 };
