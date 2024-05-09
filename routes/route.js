@@ -8,6 +8,7 @@ const cartRoute = require('./cartRoute');
 const wishlistRoute = require('./wishlistRoute');
 const orderRoute = require('./orderRoute');
 const dashBoardRoute = require('./dashBoardRoute');
+const reportRoute = require('./reportRoute');
 
 
 router.use('/user', authRoute);
@@ -18,5 +19,6 @@ router.use('/cart', cartRoute);
 router.use('/wishlist', wishlistRoute);
 router.use('/order', orderRoute);
 router.use('/dashBoard', dashBoardRoute);
+router.use('/report', reportRoute);
 
 module.exports = router;
