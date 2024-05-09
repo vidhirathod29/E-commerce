@@ -36,7 +36,12 @@ db.productModel = require('../models/product')(sequelize, Sequelize);
 db.productImageModel = require('../models/product_image')(sequelize, Sequelize);
 db.cartModel = require('../models/cart')(sequelize, Sequelize);
 db.wishlistModel = require('../models/wishlist')(sequelize, Sequelize);
+db.addressModel = require('../models/address')(sequelize, Sequelize);
 db.orderModel = require('../models/order')(sequelize, Sequelize);
+db.order_productModel = require('../models/order_product')(
+  sequelize,
+  Sequelize,
+);
 
 db.authModel.hasMany(db.productModel, { foreignKey: 'user_id' });
 
@@ -78,6 +83,18 @@ db.stateModel.hasMany(db.addressModel, { foreignKey: 'state_id' });
 
 db.addressModel.belongsTo(db.cityModel, { foreignKey: 'city_id' });
 db.cityModel.hasMany(db.addressModel, { foreignKey: 'city_id' });
+
+db.authModel.hasMany(db.orderModel, { foreignKey: 'user_id' });
+db.orderModel.belongsTo(db.authModel, { foreignKey: 'user_id' });
+
+db.orderModel.belongsTo(db.addressModel, { foreignKey: 'address_id' });
+db.addressModel.hasMany(db.orderModel, { foreignKey: 'address_id' });
+
+db.order_productModel.belongsTo(db.orderModel, { foreignKey: 'order_id' });
+db.orderModel.hasMany(db.order_productModel, { foreignKey: 'order_id' });
+
+db.order_productModel.belongsTo(db.productModel, { foreignKey: 'product_id' });
+db.productModel.hasMany(db.order_productModel, { foreignKey: 'product_id' });
 
 db.sequelize.sync().then(() => {
   logger.info('Re-sync');

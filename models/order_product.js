@@ -1,21 +1,25 @@
 module.exports = (sequelize, Sequelize) => {
-  const wishlist = sequelize.define(
-    'wishlist',
+  const order_product = sequelize.define(
+    'order_product',
     {
-      user_id: {
-        type: Sequelize.INTEGER(11),
-        references: {
-          model: 'users',
-          key: 'id',
-        },
-        allowNull: false,
-      },
       product_id: {
         type: Sequelize.INTEGER(11),
         references: {
           model: 'product',
           key: 'id',
         },
+        allowNull: false,
+      },
+      order_id: {
+        type: Sequelize.INTEGER(11),
+        references: {
+          model: 'order',
+          key: 'id',
+        },
+        allowNull: false,
+      },
+      quantity: {
+        type: Sequelize.INTEGER(11),
         allowNull: false,
       },
       created_at: {
@@ -26,8 +30,13 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW,
       },
+      is_deleted: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      },
     },
     { freezeTableName: true, timestamps: false },
   );
-  return wishlist;
+
+  return order_product;
 };
