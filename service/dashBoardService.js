@@ -32,7 +32,7 @@ const countOfUser = async (req, res, next) => {
   logger.info(`User ${Messages.GET_SUCCESS}`);
   next(
     new GeneralError(
-      `User ${Messages.GET_SUCCESS}`,
+      undefined,
       StatusCodes.OK,
       count,
       RESPONSE_STATUS.SUCCESS,
@@ -72,17 +72,17 @@ const countOfOrderStatus = async (req, res, next) => {
   });
 
   const count = {
-    pending: pendingCount,
-    deliver: deliverCount,
-    confirm: confirmCount,
-    reject: rejectCount,
-    approve: approveCount,
+    totalPendingOrder: pendingCount,
+    totalDeliverOrder: deliverCount,
+    totalConfirmOrder: confirmCount,
+    totalRejectOrder: rejectCount,
+    totalApproveOrder: approveCount,
   };
 
-  logger.info(`Order status  ${Messages.GET_SUCCESS}`);
+  logger.info(`Order ${Messages.GET_SUCCESS}`);
   next(
     new GeneralError(
-      `Order status  ${Messages.GET_SUCCESS}`,
+      undefined,
       StatusCodes.OK,
       count,
       RESPONSE_STATUS.SUCCESS,
@@ -97,10 +97,10 @@ const countOfTOtalOrder = async (req, res, next) => {
     },
   });
 
-  logger.info(`Order  ${Messages.GET_SUCCESS}`);
+  logger.info(`Order ${Messages.GET_SUCCESS}`);
   next(
     new GeneralError(
-      `Order  ${Messages.GET_SUCCESS}`,
+      undefined,
       StatusCodes.OK,
       productCount,
       RESPONSE_STATUS.SUCCESS,
@@ -115,10 +115,10 @@ const countOfTOtalProducts = async (req, res, next) => {
     },
   });
 
-  logger.info(`Products  ${Messages.GET_SUCCESS}`);
+  logger.info(`Products ${Messages.GET_SUCCESS}`);
   next(
     new GeneralError(
-      `Products  ${Messages.GET_SUCCESS}`,
+      undefined,
       StatusCodes.OK,
       productCount,
       RESPONSE_STATUS.SUCCESS,
