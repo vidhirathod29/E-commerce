@@ -1,7 +1,8 @@
+const { STATUS } = require('../utils/enum');
 
 module.exports = (sequelize, Sequelize) => {
-  const address = sequelize.define(
-    'address',
+  const order = sequelize.define(
+    'order',
     {
       user_id: {
         type: Sequelize.INTEGER(11),
@@ -11,40 +12,28 @@ module.exports = (sequelize, Sequelize) => {
         },
         allowNull: false,
       },
-      country_id: {
+      address_id: {
         type: Sequelize.INTEGER(11),
         references: {
-          model: 'country',
+          model: 'address',
           key: 'id',
         },
         allowNull: false,
       },
-      state_id: {
-        type: Sequelize.INTEGER(11),
-        references: {
-          model: 'state',
-          key: 'id',
-        },
+      total_amount: {
+        type: Sequelize.FLOAT(11),
         allowNull: false,
       },
-      city_id: {
-        type: Sequelize.INTEGER(11),
-        references: {
-          model: 'city',
-          key: 'id',
-        },
-        allowNull: false,
-      },
-      address_line1: {
-        type: Sequelize.TEXT,
-        allowNull: false,
-      },
-      address_line2: {
-        type: Sequelize.TEXT,
-        allowNull: false,
-      },
-      zip_code: {
-        type: Sequelize.STRING(6),
+      status: {
+        type: Sequelize.STRING(11),
+        enum: [
+          STATUS.PENDING,
+          STATUS.REJECT,
+          STATUS.DELIVER,
+          STATUS.APPROVED,
+          STATUS.CONFIRMED,
+        ],
+        defaultValue: STATUS.PENDING,
         allowNull: false,
       },
       created_at: {
@@ -62,6 +51,6 @@ module.exports = (sequelize, Sequelize) => {
     },
     { freezeTableName: true, timestamps: false },
   );
- 
-  return address;
+
+  return order;
 };
