@@ -33,6 +33,7 @@ module.exports = (sequelize, Sequelize) => {
           STATUS.APPROVED,
           STATUS.CONFIRMED,
         ],
+        defaultValue: STATUS.PENDING,
         allowNull: false,
       },
       created_at: {

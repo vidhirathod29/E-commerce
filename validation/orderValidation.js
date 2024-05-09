@@ -13,28 +13,11 @@ module.exports = {
       'number.empty': 'Address id should not be empty',
       'any.required': 'Address id is a required field',
     }),
-    status: Joi.string()
-      .valid(
-        STATUS.PENDING,
-        STATUS.APPROVED,
-        STATUS.CONFIRMED,
-        STATUS.DELIVER,
-        STATUS.REJECT,
-      )
-      .empty()
-      .required()
-      .messages({
-        'string.base': 'Status should be a type of string',
-        'any.only': `Status must be a ${STATUS.PENDING} or ${STATUS.APPROVED} or ${STATUS.CONFIRMED} or ${STATUS.DELIVER} or ${STATUS.REJECT}`,
-        'string.empty': 'Status should not be empty',
-        'any.required': 'Status is a required field',
-      }),
   }),
 
   updateOrderStatusValidation: Joi.object({
     status: Joi.string()
       .valid(
-        STATUS.PENDING,
         STATUS.APPROVED,
         STATUS.CONFIRMED,
         STATUS.DELIVER,

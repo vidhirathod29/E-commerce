@@ -34,7 +34,7 @@ const placeOrder = async (req, res, next) => {
       ),
     );
   }
-  const { cart_id, address_id, status } = req.body;
+  const { cart_id, address_id } = req.body;
 
   const findCart = await cart.findOne({
     where: { id: cart_id, is_deleted: false },
@@ -82,7 +82,6 @@ const placeOrder = async (req, res, next) => {
     user_id: id,
     address_id,
     total_amount: grandTotal,
-    status,
   };
   const placedOrder = await order.create(newOrder, { transaction });
 
@@ -92,13 +91,13 @@ const placeOrder = async (req, res, next) => {
     transaction,
   });
 
-  const newOrder_product = {
+  const newOrderProduct = {
     product_id: productId,
     order_id: placedOrder.id,
     quantity: findCart.quantity,
   };
 
-  await orderProduct.create(newOrder_product, {
+  await orderProduct.create(newOrderProduct, {
     transaction,
   });
 
