@@ -74,8 +74,14 @@ const updateProduct = async (req, res, next) => {
   const id = req.params.id;
   const findId = await product.findOne({ where: { id, is_deleted: false } });
 
-  const { product_name, price, product_description, product_quantity, images } =
-    req.body;
+  const {
+    product_name,
+    price,
+    product_description,
+    product_quantity,
+    images,
+    selectedImage,
+  } = req.body;
 
   const updateProductData = {
     product_name,
@@ -83,6 +89,7 @@ const updateProduct = async (req, res, next) => {
     product_description,
     product_quantity,
     images,
+    selectedImage,
   };
 
   if (findId) {
@@ -95,7 +102,7 @@ const updateProduct = async (req, res, next) => {
       const imageData = images.map((image) => ({
         product_id: id,
         product_image: image,
-        status: false,
+        status: image === selectedImage,
       }));
       await bulkCreate(productImage, imageData);
     }

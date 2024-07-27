@@ -2,7 +2,6 @@ const Joi = require('joi');
 const { ROLES, GENDER } = require('../utils/enum');
 
 module.exports = {
-  
   registrationValidation: Joi.object({
     name: Joi.string().min(3).max(30).empty().required().messages({
       'string.base': `Name should be a type of string`,
@@ -58,6 +57,11 @@ module.exports = {
         'string.empty': `Gender should not be empty`,
         'any.required': `Gender is a required field`,
       }),
+    profile_image: Joi.string().empty().required().messages({
+      'string.base': `profile_image should be a type of string`,
+      'string.empty': `profile_image should not be empty`,
+      'any.required': `profile_image is a required field`,
+    }),
     role: Joi.string()
       .valid(ROLES.ADMIN, ROLES.CUSTOMER)
       .empty()
@@ -109,6 +113,19 @@ module.exports = {
         'string.base': `Email should be a type of string`,
         'string.pattern.base"': `Email should be in proper formate`,
       }),
+    phone_number: Joi.string().optional().messages({
+      'string.base': `Phone number should be a type of string`,
+    }),
+    gender: Joi.string()
+      .valid(GENDER.FEMALE, GENDER.MALE)
+      .optional()
+      .messages({
+        'string.base': `Gender should be a type of string`,
+        'any.only': `Gender must be a ${GENDER.FEMALE} or ${GENDER.MALE} `,
+      }),
+    profile_image: Joi.string().optional().messages({
+      'string.base': `profile_image should be a type of string`,
+    }),
   }),
 
   updatePasswordValidation: Joi.object({

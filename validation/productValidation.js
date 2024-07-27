@@ -59,5 +59,8 @@ module.exports = {
     status: Joi.number().optional().messages({
       'number.base': 'Product quantity should be type of number',
     }),
+    selectedImage: Joi.string().optional().messages({
+      'string.base': 'Selected image should be type of string',
+    }),
   }),
 };
