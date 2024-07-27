@@ -1,5 +1,6 @@
 const db = require('../models/db');
 const auth = db.authModel;
+const otpModel = db.otpModel;
 const { StatusCodes } = require('http-status-codes');
 const { RESPONSE_STATUS } = require('../utils/enum');
 const { GeneralResponse } = require('../utils/response');
@@ -13,9 +14,20 @@ const moment = require('moment');
 const registration = async (req, res, next) => {
   const { name, email, phone_number, password, gender, role } = req.body;
 
+  if (!req.file) {
+    next(
+      new GeneralResponse(
+        Messages.IS_IMAGE,
+        StatusCodes.BAD_REQUEST,
+        undefined,
+        RESPONSE_STATUS.ERROR,
+      ),
+    );
+  }
   const existUser = await auth.findOne({ where: { email } });
   if (!existUser) {
     const encryptPassword = await bcrypt.hash(password, 10);
+
     const userData = {
       name,
       email,
@@ -43,7 +55,7 @@ const registration = async (req, res, next) => {
     next(
       new GeneralError(
         `User ${Messages.ALREADY_EXIST}`,
-        StatusCodes.CONFLICT,
+        StatusCodes.NOT_FOUND,
         undefined,
         RESPONSE_STATUS.ERROR,
       ),
@@ -59,7 +71,7 @@ const login = async (req, res, next) => {
   if (!findUser) {
     logger.error(`User ${Messages.NOT_FOUND}`);
     next(
-      new GeneralError(
+      new GeneralResponse(
         `User ${Messages.NOT_FOUND}`,
         StatusCodes.NOT_FOUND,
         undefined,
@@ -72,9 +84,9 @@ const login = async (req, res, next) => {
   if (!comparePassword) {
     logger.error(Messages.INCORRECT_CREDENTIAL);
     next(
-      new GeneralError(
+      new GeneralResponse(
         Messages.INCORRECT_CREDENTIAL,
-        StatusCodes.UNAUTHORIZED,
+        StatusCodes.BAD_REQUEST,
         undefined,
         RESPONSE_STATUS.ERROR,
       ),
@@ -87,7 +99,7 @@ const login = async (req, res, next) => {
     });
     logger.info(Messages.LOGIN_SUCCESS);
     next(
-      new GeneralError(
+      new GeneralResponse(
         Messages.LOGIN_SUCCESS,
         StatusCodes.OK,
         token,
@@ -112,20 +124,20 @@ const updateProfile = async (req, res, next) => {
       ),
     );
   }
-  const { name, email, phone_number, gender } = req.body;
-  const image = req.file.filename;
+  let image;
+  if (req.file) {
+    image = req.file.filename;
+  }
+
   const updateData = {
-    name,
-    email,
-    phone_number,
-    gender,
+    ...req.body,
     profile_image: image,
   };
 
   if (Object.keys(updateData).length === 0) {
     logger.error(Messages.NO_VALID_FIELDS);
     next(
-      new GeneralError(
+      new GeneralResponse(
         Messages.NO_VALID_FIELDS,
         StatusCodes.BAD_REQUEST,
         undefined,
@@ -161,7 +173,7 @@ const viewProfile = async (req, res, next) => {
   if (!findUser) {
     logger.error(`User ${Messages.NOT_FOUND}`);
     next(
-      new GeneralError(
+      new GeneralResponse(
         `User ${Messages.NOT_FOUND}`,
         StatusCodes.NOT_FOUND,
         undefined,
@@ -171,7 +183,7 @@ const viewProfile = async (req, res, next) => {
   }
   logger.info(`User ${Messages.GET_SUCCESS}`);
   next(
-    new GeneralError(
+    new GeneralResponse(
       undefined,
       StatusCodes.OK,
       findUser,
@@ -187,7 +199,7 @@ const resetPassword = async (req, res, next) => {
   if (!findUser) {
     logger.error(`User ${Messages.NOT_FOUND}`);
     next(
-      new GeneralError(
+      new GeneralResponse(
         `User ${Messages.NOT_FOUND}`,
         StatusCodes.NOT_FOUND,
         undefined,
@@ -201,7 +213,7 @@ const resetPassword = async (req, res, next) => {
   if (!comparePassword) {
     logger.error(Messages.INVALID_OLD_PASS);
     next(
-      new GeneralError(
+      new GeneralResponse(
         Messages.INVALID_OLD_PASS,
         StatusCodes.BAD_REQUEST,
         undefined,
@@ -227,16 +239,14 @@ const resetPassword = async (req, res, next) => {
     );
   }
 };
-
 const verifyEmail = async (req, res, next) => {
-  
   const email = req.body.email;
   const findUser = await auth.findOne({ where: { email } });
 
   if (!findUser) {
     logger.error(`User ${Messages.NOT_FOUND}`);
     next(
-      new GeneralError(
+      new GeneralResponse(
         `User ${Messages.NOT_FOUND}`,
         StatusCodes.NOT_FOUND,
         undefined,
@@ -253,7 +263,7 @@ const verifyEmail = async (req, res, next) => {
 
   if (!otpGeneration) {
     next(
-      new GeneralError(
+      new GeneralResponse(
         Messages.OTP_GENERATE_FAIL,
         StatusCodes.BAD_REQUEST,
         undefined,
@@ -262,7 +272,7 @@ const verifyEmail = async (req, res, next) => {
     );
   } else {
     next(
-      new GeneralError(
+      new GeneralResponse(
         Messages.OTP_SENT_SUCCESS,
         StatusCodes.OK,
         generateOtp,
@@ -281,7 +291,7 @@ const updatePassword = async (req, res, next) => {
   if (!findOtp) {
     logger.error(Messages.INVALID_OTP);
     next(
-      new GeneralError(
+      new GeneralResponse(
         Messages.INVALID_OTP,
         StatusCodes.BAD_REQUEST,
         undefined,
@@ -295,7 +305,7 @@ const updatePassword = async (req, res, next) => {
   if (otpValidTime <= currentTime) {
     logger.error(Messages.OTP_EXPIRE);
     next(
-      new GeneralError(
+      new GeneralResponse(
         Messages.OTP_EXPIRE,
         StatusCodes.BAD_REQUEST,
         undefined,

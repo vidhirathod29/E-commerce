@@ -6,6 +6,8 @@ require('dotenv').config();
 const route = require('./routes/route');
 const path = require('path');
 const cors = require('cors');
+const { handleResponse } = require('./helper/response');
+
 
 app.use(express.json());
 app.use(bodyParse.json());
@@ -15,6 +17,7 @@ app.use(cors());
 
 app.use('/api', route);
 
+app.use(handleResponse);
 app.use(require('./helper/error').handleJoiErrors);
 app.use(require('./helper/error').handleErrors);
 

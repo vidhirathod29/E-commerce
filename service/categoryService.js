@@ -5,7 +5,6 @@ const { StatusCodes } = require('http-status-codes');
 const { RESPONSE_STATUS } = require('../utils/enum');
 const { GeneralResponse } = require('../utils/response');
 const { Messages } = require('../utils/messages');
-const { GeneralError } = require('../utils/error');
 const logger = require('../logger/logger');
 const { listData, filter } = require('../helper/dbService');
 
@@ -50,7 +49,7 @@ const addUpdateCategory = async (req, res, next) => {
     } else {
       logger.error(`Category ${Messages.NOT_FOUND}`);
       next(
-        new GeneralError(
+        new GeneralResponse(
           `Category ${Messages.NOT_FOUND}`,
           StatusCodes.NOT_FOUND,
           undefined,
@@ -63,7 +62,7 @@ const addUpdateCategory = async (req, res, next) => {
     if (createCategory) {
       logger.info(`Category ${Messages.ADD_SUCCESS}`);
       next(
-        new GeneralError(
+        new GeneralResponse(
           `Category ${Messages.ADD_SUCCESS}`,
           StatusCodes.OK,
           createCategory.id,
@@ -83,7 +82,7 @@ const deleteCategory = async (req, res, next) => {
   if (!findCategory) {
     logger.error(`Category ${Messages.NOT_FOUND}`);
     next(
-      new GeneralError(
+      new GeneralResponse(
         `Category ${Messages.NOT_FOUND}`,
         StatusCodes.NOT_FOUND,
         undefined,
@@ -134,7 +133,7 @@ const listOfCategory = async (req, res, next) => {
   if (listOfCategories) {
     logger.info(`Category ${Messages.GET_SUCCESS}`);
     next(
-      new GeneralError(
+      new GeneralResponse(
         undefined,
         StatusCodes.OK,
         listOfCategories,
