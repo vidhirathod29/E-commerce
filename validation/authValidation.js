@@ -57,11 +57,7 @@ module.exports = {
         'string.empty': `Gender should not be empty`,
         'any.required': `Gender is a required field`,
       }),
-    profile_image: Joi.string().empty().required().messages({
-      'string.base': `profile_image should be a type of string`,
-      'string.empty': `profile_image should not be empty`,
-      'any.required': `profile_image is a required field`,
-    }),
+  
     role: Joi.string()
       .valid(ROLES.ADMIN, ROLES.CUSTOMER)
       .empty()
