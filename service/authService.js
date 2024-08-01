@@ -303,6 +303,7 @@ const updatePassword = async (req, res, next) => {
   const otpValidTime = moment(findOtp.expireTime).format('x');
 
   if (otpValidTime <= currentTime) {
+    await otpModel.destroy({ where: { otp } });
     logger.error(Messages.OTP_EXPIRE);
     next(
       new GeneralResponse(

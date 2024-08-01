@@ -5,6 +5,7 @@ const listData = async (
   attributes = [],
   where,
   include = [],
+  order,
   page = 1,
   pageSize = 3,
 ) => {
@@ -14,9 +15,9 @@ const listData = async (
     attributes: attributes.length > 0 ? attributes : undefined,
     where: Object.keys(where).length > 0 ? where : undefined,
     include: include.length > 0 ? include : undefined,
+    order: order.length > 0 ? order : [['id', 'DESC']],
     offset,
     limit,
-    order: [['id', 'ASC']],
   });
 
   const totalCount = data.count;
@@ -52,4 +53,55 @@ const filter = async (condition, payload) => {
   return where;
 };
 
-module.exports = { listData, bulkCreate, filter };
+const orderArrayFunction = (order) => {
+  const orderArray = [];
+  
+  if (order && order.length === 2) {
+    const fields = order[0].split('.');
+
+    if (fields.length > 1) {
+      const modelName = fields[0];
+      const keyName = fields[1];
+
+      const model = modelMap[modelName];
+
+      if (model) {
+        orderArray.push([{ model, as: modelName }, keyName, order[1]]);
+      } else {
+        orderArray.push([order[0], order[1]]);
+      }
+    } else {
+      orderArray.push([order[0], order[1]]);
+    }
+  }
+
+  return orderArray;
+};
+
+
+const searchData = (search, searchFields) => {
+  const queryList = [];
+
+  if (search && search.length > 0) {
+    searchFields.forEach((searchField) => {
+      const qry = {};
+      if (searchField.includes('.')) {
+        const [model, field] = searchField.split('.');
+        qry[`$${model}.${field}$`] = { [db.Op.like]: `%${search}%` };
+      } else {
+        qry[searchField] = { [db.Op.like]: `%${search}%` };
+      }
+      queryList.push(qry);
+    });
+  }
+
+  return queryList;
+};
+
+module.exports = {
+  listData,
+  bulkCreate,
+  filter,
+  orderArrayFunction,
+  searchData,
+};
