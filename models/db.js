@@ -1,4 +1,4 @@
-const { Sequelize } = require('sequelize');
+const { Sequelize, Op } = require('sequelize');
 const { Messages } = require('../utils/messages');
 const logger = require('../logger/logger');
 require('dotenv').config();
@@ -42,6 +42,7 @@ db.order_productModel = require('../models/order_product')(
   sequelize,
   Sequelize,
 );
+db.Op = Op;
 
 db.authModel.hasMany(db.productModel, { foreignKey: 'user_id' });
 

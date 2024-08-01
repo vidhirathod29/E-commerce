@@ -10,6 +10,12 @@ const listOfDataValidation = Joi.object({
   pageSize: Joi.number().optional().messages({
     'number.base': 'pageSize should be type of a number',
   }),
+  search: Joi.string().optional().messages({
+    'string.base': 'Search should be type of a string',
+  }),
+  order: Joi.array().optional().messages({
+    'array.base': 'Product image should be type of array',
+  }),
 });
 
 module.exports = { listOfDataValidation };

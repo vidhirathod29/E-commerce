@@ -10,7 +10,11 @@ const { GeneralResponse } = require('../utils/response');
 const { Messages } = require('../utils/messages');
 const { GeneralError } = require('../utils/error');
 const logger = require('../logger/logger');
-const { listData } = require('../helper/dbService');
+const {
+  listData,
+  orderArrayFunction,
+  searchData,
+} = require('../helper/dbService');
 
 const addCart = async (req, res, next) => {
   const userId = req.user.id;
@@ -187,7 +191,25 @@ const deleteCart = async (req, res, next) => {
 };
 
 const viewCart = async (req, res, next) => {
-  const { pageSize, page } = req.body;
+  const { pageSize, page, order, search } = req.body;
+
+  let { condition } = req.body;
+  condition = { ...condition };
+
+  const searchFields = [
+    'product.product_name',
+    'product.price',
+    'product.product_description',
+    'product.product_quantity',
+    'user.name',
+  ];
+
+  const orderArray = orderArrayFunction(order);
+
+  const queryList = searchData(search, searchFields);
+  if (queryList.length > 0) {
+    condition[db.Op.or] = queryList;
+  }
 
   const viewCart = await listData(
     cart,
@@ -208,7 +230,13 @@ const viewCart = async (req, res, next) => {
       },
       {
         model: product,
-        attributes: ['id', 'product_name', 'price'],
+        attributes: [
+          'id',
+          'product_name',
+          'price',
+          'product_description',
+          'product_quantity',
+        ],
         where: {
           is_deleted: 0,
         },
@@ -224,6 +252,7 @@ const viewCart = async (req, res, next) => {
         ],
       },
     ],
+    orderArray,
     page,
     pageSize,
   );
