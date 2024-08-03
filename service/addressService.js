@@ -10,7 +10,11 @@ const { Messages } = require('../utils/messages');
 const { GeneralError } = require('../utils/error');
 const { GeneralResponse } = require('../utils/response');
 const logger = require('../logger/logger');
-const { listData } = require('../helper/dbService');
+const {
+  listData,
+  orderArrayFunction,
+  searchData,
+} = require('../helper/dbService');
 
 const listOfCountry = async (req, res, next) => {
   const countryList = await listData(country, [], {}, []);
@@ -227,10 +231,29 @@ const deleteAddress = async (req, res, next) => {
 const listOfAddress = async (req, res, next) => {
   const { pageSize, page } = req.body;
 
+  let { condition } = req.body;
+  condition = { ...condition };
+
+  const searchFields = [
+    'category.category_name',
+    'product_name',
+    'price',
+    'product_description',
+    'product_quantity',
+    'user.name',
+  ];
+
+  const orderArray = orderArrayFunction(order);
+
+  const queryList = searchData(search, searchFields);
+  if (queryList.length > 0) {
+    condition[db.Op.or] = queryList;
+  }
+
   const listOfAddress = await listData(
     address,
     ['id', 'user_id', 'address_line1', 'address_line2', 'zip_code'],
-    { is_deleted: false },
+    { is_deleted: false, ...condition },
     [
       {
         model: user,
@@ -256,6 +279,7 @@ const listOfAddress = async (req, res, next) => {
         ],
       },
     ],
+    orderArray,
     page,
     pageSize,
   );

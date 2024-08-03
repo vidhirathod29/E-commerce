@@ -6,7 +6,11 @@ const { RESPONSE_STATUS } = require('../utils/enum');
 const { GeneralResponse } = require('../utils/response');
 const { Messages } = require('../utils/messages');
 const logger = require('../logger/logger');
-const { listData, filter } = require('../helper/dbService');
+const {
+  listData,
+  orderArrayFunction,
+  searchData,
+} = require('../helper/dbService');
 
 const addUpdateCategory = async (req, res, next) => {
   const id = req.params.id;
@@ -110,22 +114,33 @@ const deleteCategory = async (req, res, next) => {
 };
 
 const listOfCategory = async (req, res, next) => {
-  const { condition, pageSize, page } = req.body;
-  let whereCondition = await filter({ is_deleted: 0 }, condition);
+  const { pageSize, page, order, search } = req.body;
+  let { condition } = req.body;
+  condition = { ...condition };
+
+  const searchFields = ['category_name', 'category_description', 'user.name'];
+
+  const orderArray = orderArrayFunction(order);
+
+  const queryList = searchData(search, searchFields);
+  if (queryList.length > 0) {
+    condition[db.Op.or] = queryList;
+  }
 
   const listOfCategories = await listData(
     category,
     ['id', 'user_id', 'category_name', 'category_description'],
-    whereCondition,
+    { is_deleted: false, ...condition },
     [
       {
         model: user,
         attributes: ['name'],
         where: {
-          is_deleted: 0,
+          is_deleted: false,
         },
       },
     ],
+    orderArray,
     page,
     pageSize,
   );

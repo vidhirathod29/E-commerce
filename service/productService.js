@@ -9,7 +9,12 @@ const { GeneralResponse } = require('../utils/response');
 const { Messages } = require('../utils/messages');
 const { GeneralError } = require('../utils/error');
 const logger = require('../logger/logger');
-const { listData, bulkCreate, filter } = require('../helper/dbService');
+const {
+  listData,
+  bulkCreate,
+  orderArrayFunction,
+  searchData,
+} = require('../helper/dbService');
 
 const addProduct = async (req, res, next) => {
   const userId = req.user.id;
@@ -203,7 +208,15 @@ const viewProduct = async (req, res, next) => {
   const id = req.params.id;
 
   const viewProduct = await product.findOne({
-    attributes: ['id', 'user_id', 'category_id', 'product_name', 'price'],
+    attributes: [
+      'id',
+      'user_id',
+      'category_id',
+      'product_name',
+      'price',
+      'product_description',
+      'product_quantity',
+    ],
     where: { id, is_deleted: 0 },
     include: [
       {
@@ -252,26 +265,51 @@ const viewProduct = async (req, res, next) => {
 };
 
 const listOfProduct = async (req, res, next) => {
-  const { pageSize, page } = req.body;
-  let whereCondition = await filter({ is_deleted: 0 });
+  const { pageSize, page, order, search } = req.body;
+  let { condition } = req.body;
+  condition = { ...condition };
+
+  const searchFields = [
+    'category.category_name',
+    'product_name',
+    'price',
+    'product_description',
+    'product_quantity',
+    'user.name',
+  ];
+
+  const orderArray = orderArrayFunction(order);
+
+  const queryList = searchData(search, searchFields);
+  if (queryList.length > 0) {
+    condition[db.Op.or] = queryList;
+  }
 
   const listOfProduct = await listData(
     product,
-    ['id', 'user_id', 'category_id', 'product_name', 'price'],
-    whereCondition,
+    [
+      'id',
+      'user_id',
+      'category_id',
+      'product_name',
+      'price',
+      'product_description',
+      'product_quantity',
+    ],
+    { is_deleted: false, ...condition },
     [
       {
         model: user,
         attributes: ['name'],
         where: {
-          is_deleted: 0,
+          is_deleted: false,
         },
       },
       {
         model: category,
         attributes: ['id', 'category_name'],
         where: {
-          is_deleted: 0,
+          is_deleted: false,
         },
       },
       {
@@ -283,6 +321,7 @@ const listOfProduct = async (req, res, next) => {
         required: false,
       },
     ],
+    orderArray,
     page,
     pageSize,
   );

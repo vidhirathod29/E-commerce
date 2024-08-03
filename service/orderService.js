@@ -15,7 +15,11 @@ const { GeneralResponse } = require('../utils/response');
 const { Messages } = require('../utils/messages');
 const { GeneralError } = require('../utils/error');
 const logger = require('../logger/logger');
-const { listData } = require('../helper/dbService');
+const {
+  listData,
+  orderArrayFunction,
+  searchData,
+} = require('../helper/dbService');
 
 const placeOrder = async (req, res, next) => {
   const id = req.user.id;
@@ -235,7 +239,28 @@ const cancelOrder = async (req, res, next) => {
 };
 
 const listOfOrder = async (req, res, next) => {
-  const { pageSize, page } = req.body;
+  const { pageSize, page, order, search } = req.body;
+
+  let { condition } = req.body;
+  condition = { ...condition };
+
+  const searchFields = [
+    'total_amount',
+    'address.address_line1',
+    'address.address_line2',
+    'address.zip_code',
+    'state.state_name',
+    'country.country_name',
+    'city.city_name',
+    'user.name',
+  ];
+
+  const orderArray = orderArrayFunction(order);
+
+  const queryList = searchData(search, searchFields);
+  if (queryList.length > 0) {
+    condition[db.Op.or] = queryList;
+  }
 
   const listOfOrder = await listData(
     order,
@@ -271,6 +296,7 @@ const listOfOrder = async (req, res, next) => {
         ],
       },
     ],
+    orderArray,
     page,
     pageSize,
   );
