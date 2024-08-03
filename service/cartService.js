@@ -192,6 +192,7 @@ const viewCart = async (req, res, next) => {
   const viewCart = await listData(
     cart,
     [
+      'id',
       'user_id',
       'product_id',
       'quantity',
