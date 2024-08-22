@@ -45,7 +45,7 @@ const registration = async (req, res, next) => {
         new GeneralResponse(
           Messages.REGISTER_SUCCESS,
           StatusCodes.CREATED,
-          undefined,
+          registerUser.profile_image,
           RESPONSE_STATUS.SUCCESS,
         ),
       );
