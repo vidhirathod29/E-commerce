@@ -27,6 +27,7 @@ const listData = async (
   return {
     totalCount,
     totalPages,
+    currentPage: page,
     nextPage,
     data: data.rows,
   };

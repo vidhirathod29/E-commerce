@@ -31,8 +31,19 @@ const addCart = async (req, res, next) => {
     attributes: ['id', 'product_quantity'],
   });
 
+  if (findProduct === null) {
+    logger.error(`Product ${Messages.NOT_FOUND}`);
+    next(
+      new GeneralError(
+        `Product ${Messages.NOT_FOUND}`,
+        StatusCodes.NOT_FOUND,
+        undefined,
+        RESPONSE_STATUS.ERROR,
+      ),
+    );
+  }
+
   if (
-    !findProduct ||
     findProduct.product_quantity === 0 ||
     findProduct.product_quantity < cartData.quantity
   ) {
